@@ -1,0 +1,4 @@
+# 🛡️ LEGENDARY BACKUPS DIRECTORY
+# This directory stores legendary backup files
+# Created by RICKROLL187 at 2025-08-04 17:37:29 UTC
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!

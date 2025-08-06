@@ -1,0 +1,96 @@
+{
+  "expo": {
+    "name": "N3EXTPATH Legendary",
+    "slug": "n3extpath-legendary-mobile",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/legendary-icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/legendary-splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a1a"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.n3extpath.legendary",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "N3EXTPATH Legendary needs camera access for profile photos and document scanning with Swiss precision!",
+        "NSPhotoLibraryUsageDescription": "N3EXTPATH Legendary needs photo access for profile customization and legendary content sharing!",
+        "NSMicrophoneUsageDescription": "N3EXTPATH Legendary needs microphone access for voice notes and legendary audio feedback!",
+        "CFBundleDisplayName": "N3EXTPATH Legendary",
+        "CFBundleName": "N3EXTPATH Legendary"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/legendary-adaptive-icon.png",
+        "backgroundColor": "#1a1a1a"
+      },
+      "package": "com.n3extpath.legendary",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECORD_AUDIO",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "WAKE_LOCK"
+      ],
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "favicon": "./assets/legendary-favicon.png",
+      "name": "N3EXTPATH Legendary",
+      "shortName": "N3EXTPATH",
+      "lang": "en",
+      "scope": "/",
+      "themeColor": "#1a1a1a",
+      "backgroundColor": "#ffffff",
+      "display": "standalone",
+      "orientation": "portrait-primary"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-camera",
+      "expo-image-picker",
+      "expo-notifications",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/legendary-notification-icon.png",
+          "color": "#1a1a1a",
+          "sounds": ["./assets/sounds/legendary-notification.wav"]
+        }
+      ]
+    ],
+    "scheme": "n3extpath-legendary",
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "legendary-n3extpath-mobile-2025"
+      },
+      "legendary": {
+        "founder": "RICKROLL187",
+        "contact": "letstalktech010@gmail.com",
+        "motto": "WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!",
+        "swissPrecision": true,
+        "codeBroEnergy": "infinite",
+        "version": "2.0.0"
+      }
+    },
+    "owner": "rickroll187",
+    "privacy": "public",
+    "platforms": ["ios", "android", "web"],
+    "githubUrl": "https://github.com/rickroll187/n3extpath-legendary-mobile",
+    "primaryColor": "#1a1a1a",
+    "description": "🎸 N3EXTPATH Legendary Mobile - Swiss Precision HR Management on the Go! Built with infinite code bro energy by RICKROLL187! 🎸"
+  }
+}

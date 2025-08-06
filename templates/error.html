@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}{{ error_code or '500' }} - Legendary Error | N3nextPath{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* 🚨 ERROR PAGE SPECIFIC STYLES */
+    .error-container {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    
+    .error-code {
+        font-size: 8rem;
+        font-weight: bold;
+        color: #ff6b6b;
+        text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        margin-bottom: 20px;
+        animation: legendary-pulse 2s ease-in-out infinite;
+    }
+    
+    .error-title {
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .error-message {
+        font-size: 1.3rem;
+        color: #ffffff;
+        margin-bottom: 30px;
+        max-width: 600px;
+        line-height: 1.6;
+    }
+    
+    .error-actions {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 30px 0;
+    }
+    
+    .error-details {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,107,107,0.3);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 30px 0;
+        max-width: 600px;
+        text-align: left;
+    }
+    
+    .error-illustration {
+        font-size: 10rem;
+        margin-bottom: 30px;
+        animation: legendary-bounce 3s ease-in-out infinite;
+    }
+    
+    @keyframes legendary-bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-20px); }
+        60% { transform: translateY(-10px); }
+    }
+    
+    .rickroll187-comfort {
+        background: rgba(255,215,0,0.1);
+        border: 2px solid #ffd700;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 40px auto;
+        max-width: 700px;
+        font-style: italic;
+        animation: legendary-glow 3s ease-in-out infinite;
+    }
+    
+    .error-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+        max-width: 600px;
+    }
+    
+    .error-stat {
+        text-align: center;
+        padding: 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(255,215,0,0.3);
+    }
+    
+    .error-jokes {
+        margin: 40px 0;
+        padding: 20px;
+        background: rgba(0,255,136,0.1);
+        border-radius: 10px;
+        border-left: 5px solid #00ff88;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="legendary-container">
+    <div class="error-container">
+        <!-- 🎸 ERROR ILLUSTRATION -->
+        <div class="error-illustration">
+            {% if error_code == '404' %}
+                🔍
+            {% elif error_code == '403' %}
+                🚫
+            {% elif error_code == '401' %}
+                🔐
+            {% elif error_code == '500' %}
+                ⚙️
+            {% else %}
+                🚨
+            {% endif %}
+        </div>
+        
+        <!-- 🚨 ERROR CODE -->
+        <div class="error-code">{{ error_code or '500' }}</div>
+        
+        <!-- 🏆 ERROR TITLE -->
+        <h1 class="error-title">
+            {% if error_code == '404' %}
+                🔍 Path Not Found!
+            {% elif error_code == '403' %}
+                🚫 Access Denied!
+            {% elif error_code == '401' %}
+                🔐 Authentication Required!
+            {% elif error_code == '500' %}
+                ⚙️ Server Hiccup!
+            {% else %}
+                🚨 Something Went Wrong!
+            {% endif %}
+        </h1>
+        
+        <!-- 💬 ERROR MESSAGE -->
+        <p class="error-message">
+            {% if error_message %}
+                {{ error_message }}
+            {% elif error_code == '404' %}
+                The legendary path you're looking for seems to have wandered off into the Swiss mountains! 
+                Don't worry, even legendary paths sometimes take detours.
+            {% elif error_code == '403' %}
+                This legendary area requires special code bro permissions! 
+                You might need to upgrade your legendary status or contact RICKROLL187.
+            {% elif error_code == '401' %}
+                You need to log in to access this legendary content! 
+                Every code bro needs proper authentication for Swiss-level security.
+            {% elif error_code == '500' %}
+                Our legendary servers are having a brief moment of non-legendary behavior! 
+                Even Swiss precision needs a coffee break sometimes.
+            {% else %}
+                Something unexpected happened in our legendary universe! 
+                But don't worry, RICKROLL187 is on it with Swiss precision!
+            {% endif %}
+        </p>
+        
+        <!-- 🚀 ERROR ACTIONS -->
+        <div class="error-actions">
+            <a href="/" class="legendary-btn legendary-btn-success legendary-hover-bounce">
+                🏠 Return Home
+            </a>
+            {% if error_code == '401' %}
+                <a href="/login" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+                    🔐 Login
+                </a>
+            {% endif %}
+            {% if error_code == '404' %}
+                <a href="/paths" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+                    🛤️ Browse Paths
+                </a>
+            {% endif %}
+            <button onclick="window.history.back()" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+                ↩️ Go Back
+            </button>
+            <button onclick="window.location.reload()" class="legendary-btn legendary-hover-bounce">
+                🔄 Retry
+            </button>
+        </div>
+        
+        <!-- 📊 ERROR STATS -->
+        <div class="error-stats">
+            <div class="error-stat">
+                <div style="font-size: 1.5rem; color: #ff6b6b; font-weight: bold;">{{ error_code or '500' }}</div>
+                <div style="color: #ccc; font-size: 0.9rem;">Error Code</div>
+            </div>
+            <div class="error-stat">
+                <div style="font-size: 1.5rem; color: #ffd700; font-weight: bold;">17:31:46</div>
+                <div style="color: #ccc; font-size: 0.9rem;">UTC Time</div>
+            </div>
+            <div class="error-stat">
+                <div style="font-size: 1.5rem; color: #00ff88; font-weight: bold;">🎸</div>
+                <div style="color: #ccc; font-size: 0.9rem;">RICKROLL187</div>
+            </div>
+            <div class="error-stat">
+                <div style="font-size: 1.5rem; color: #667eea; font-weight: bold;" id="error-id">
+                    {{ error_id or 'N3EXT' }}
+                </div>
+                <div style="color: #ccc; font-size: 0.9rem;">Request ID</div>
+            </div>
+        </div>
+        
+        <!-- 🎭 LEGENDARY ERROR JOKES -->
+        <div class="error-jokes">
+            <h3 style="color: #00ff88; margin-bottom: 15px;">😄 Legendary Error Humor</h3>
+            <p style="color: #ffffff; font-style: italic;" id="error-joke">
+                {% if error_code == '404' %}
+                    🎸 "Why did the path go missing? Because it was looking for RICKROLL187's legendary directions!" 🎸
+                {% elif error_code == '403' %}
+                    🎸 "Why is access denied? Because this area is too legendary for regular code bros!" 🎸
+                {% elif error_code == '401' %}
+                    🎸 "Why do you need to login? Because legendary content requires legendary authentication!" 🎸
+                {% elif error_code == '500' %}
+                    🎸 "Why did the server hiccup? Because it was trying to process too much legendary awesomeness!" 🎸
+                {% else %}
+                    🎸 "Why did this error happen? Because even legendary systems need moments of character building!" 🎸
+                {% endif %}
+            </p>
+            <button onclick="loadNewErrorJoke()" class="legendary-btn legendary-btn-primary" style="margin-top: 10px;">
+                😄 Get Another Joke
+            </button>
+        </div>
+        
+        <!-- 🎸 RICKROLL187 COMFORT MESSAGE -->
+        <div class="rickroll187-comfort">
+            🎸 "Hey there, legendary code bro! Don't let this error bring you down. 
+            {% if error_code == '404' %}
+                Even the best paths sometimes need GPS recalibration!
+            {% elif error_code == '403' %}
+                Sometimes the best adventures require the right key!
+            {% elif error_code == '401' %}
+                The most legendary content is worth logging in for!
+            {% elif error_code == '500' %}
+                Even Swiss watches need occasional maintenance!
+            {% else %}
+                Every legendary journey has its plot twists!
+            {% endif %}
+            
+            I've built this platform with Swiss precision and infinite humor to make sure you have the best experience possible. 
+            This is just a tiny bump on your legendary adventure. 
+            WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!" 🎸<br><br>
+            
+            <strong>- RICKROLL187, Your Legendary Code Bro & Error Comforter</strong><br>
+            <em>Error handled at: 2025-08-04 17:31:46 UTC with legendary care and humor!</em>
+        </div>
+        
+        <!-- 🛟 HELP SECTION -->
+        {% if error_code not in ['404'] %}
+        <div class="error-details">
+            <h3 style="color: #ffd700; margin-bottom: 15px;">🛟 Need Help?</h3>
+            <ul style="color: #ffffff; line-height: 1.8;">
+                <li>📧 Email RICKROLL187: <a href="mailto:rickroll187@legendary.dev" style="color: #00ff88;">rickroll187@legendary.dev</a></li>
+                <li>📞 Call Support: +1-555-RICKROLL (1-555-742-5765)</li>
+                <li>💬 Join our Discord: <a href="#" style="color: #00ff88;">N3nextPath Community</a></li>
+                <li>📚 Check Documentation: <a href="/docs" style="color: #00ff88;">Platform Docs</a></li>
+                <li>📊 System Status: <a href="/status" style="color: #00ff88;">Status Page</a></li>
+            </ul>
+            
+            {% if request %}
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                <h4 style="color: #ffd700; margin-bottom: 10px;">🔍 Technical Details</h4>
+                <p style="font-family: monospace; font-size: 0.9rem; color: #ccc;">
+                    <strong>URL:</strong> {{ request.url }}<br>
+                    <strong>Method:</strong> {{ request.method }}<br>
+                    <strong>Timestamp:</strong> 2025-08-04 17:31:46 UTC<br>
+                    <strong>User Agent:</strong> {{ request.headers.get('user-agent', 'Unknown')[:50] }}...
+                </p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// 🚨 ERROR PAGE LEGENDARY INTERACTIONS
+document.addEventListener('DOMContentLoaded', function() {
+    // Generate random error ID if not provided
+    const errorIdEl = document.getElementById('error-id');
+    if (errorIdEl && errorIdEl.textContent === 'N3EXT') {
+        errorIdEl.textContent = 'N3EXT-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+    }
+    
+    // Add legendary error particles
+    createErrorParticles();
+    
+    // Auto-retry for 500 errors after 30 seconds
+    if ('{{ error_code }}' === '500') {
+        setTimeout(() => {
+            if (confirm('🔄 Would you like to retry automatically? The legendary servers might be ready now!')) {
+                window.location.reload();
+            }
+        }, 30000);
+    }
+});
+
+function loadNewErrorJoke() {
+    const errorJokes = [
+        "🎸 Why don't errors scare RICKROLL187? Because he debugs them with legendary precision! 🎸",
+        "What's the difference between a bug and a feature? The legendary explanation! 🐛✨",
+        "Why are our error pages beautiful? Because even mistakes deserve legendary design! 🎨",
+        "What do you call a error that makes you laugh? A RICKROLL187 error special! 😄🎸",
+        "Why do code bros love our error pages? Because they're more entertaining than Netflix! 📺✨",
+        "What's better than no errors? Legendary error pages that make you smile! 😊🏆"
+    ];
+    
+    const randomJoke = errorJokes[Math.floor(Math.random() * errorJokes.length)];
+    const jokeEl = document.getElementById('error-joke');
+    
+    if (jokeEl) {
+        // Fade effect
+        jokeEl.style.opacity = '0';
+        setTimeout(() => {
+            jokeEl.textContent = randomJoke;
+            jokeEl.style.opacity = '1';
+        }, 300);
+    }
+    
+    // Show notification
+    window.legendary?.showNotification(
+        '😄 New legendary error joke loaded - because errors should be fun!',
+        'joke'
+    );
+}
+
+function createErrorParticles() {
+    const container = document.querySelector('.error-container');
+    if (!container) return;
+    
+    // Create floating error-themed particles
+    const particles = ['💔', '🔧', '⚠️', '🛠️', '🔄'];
+    
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+            particle.style.position = 'absolute';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '1';
+            particle.style.opacity = '0.7';
+            particle.style.animation = 'legendary-float 6s ease-in-out infinite';
+            
+            container.appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentElement) {
+                    particle.remove();
+                }
+            }, 6000);
+        }, i * 1000);
+    }
+}
+
+// 🎸 Add legendary comfort animations
+document.querySelector('.rickroll187-comfort')?.addEventListener('click', function() {
+    this.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+        this.style.transform = 'scale(1)';
+    }, 200);
+    
+    window.legendary?.showNotification(
+        '🎸 RICKROLL187 sends legendary comfort and support!',
+        'success'
+    );
+});
+
+// 🔄 Add retry functionality with legendary feedback
+function legendaryRetry() {
+    window.legendary?.showNotification(
+        '🔄 Retrying with legendary persistence...',
+        'info'
+    );
+    
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+}
+
+// Replace default retry button behavior
+const retryButton = document.querySelector('button[onclick*="reload"]');
+if (retryButton) {
+    retryButton.onclick = legendaryRetry;
+}
+</script>
+{% endblock %}
+
+<!--
+🚨 LEGENDARY ERROR TEMPLATE COMPLETE! 🚨
+More comforting than Swiss hospitality with code bro error handling mastery!
+Built by RICKROLL187 at 2025-08-04 17:31:46 UTC
+WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+-->

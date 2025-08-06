@@ -1,0 +1,370 @@
+# File: docker-compose.yml
+# 🎸🎸🎸 N3EXTPATH - LEGENDARY DOCKER COMPOSE 🎸🎸🎸
+# Professional multi-container setup with Swiss precision
+# Built: 2025-08-06 00:35:01 UTC by RICKROLL187
+# Email: letstalktech010@gmail.com
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+version: '3.8'
+
+# =====================================
+# 🌐 LEGENDARY NETWORKS 🌐
+# =====================================
+networks:
+  legendary-network:
+    driver: bridge
+    name: n3extpath-legendary-network
+    labels:
+      - "legendary.founder=rickroll187"
+      - "legendary.swiss_precision=maximum"
+      - "legendary.code_bro_energy=infinite"
+
+# =====================================
+# 💾 LEGENDARY VOLUMES 💾
+# =====================================
+volumes:
+  legendary-postgres-data:
+    driver: local
+    name: n3extpath-postgres-data
+    labels:
+      - "legendary.data_type=postgresql"
+      - "legendary.swiss_precision=enabled"
+      
+  legendary-redis-data:
+    driver: local
+    name: n3extpath-redis-data
+    labels:
+      - "legendary.data_type=redis"
+      - "legendary.performance=maximum"
+      
+  legendary-uploads:
+    driver: local
+    name: n3extpath-uploads
+    labels:
+      - "legendary.data_type=uploads"
+      - "legendary.security=enhanced"
+
+  legendary-logs:
+    driver: local
+    name: n3extpath-logs
+    labels:
+      - "legendary.data_type=logs"
+      - "legendary.monitoring=enabled"
+
+# =====================================
+# 🎸 LEGENDARY SERVICES 🎸
+# =====================================
+services:
+
+  # =====================================
+  # 🗄️ POSTGRESQL DATABASE 🗄️
+  # =====================================
+  legendary-postgres:
+    image: postgres:15-alpine
+    container_name: n3extpath-legendary-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: n3extpath_legendary
+      POSTGRES_USER: n3extpath_user
+      POSTGRES_PASSWORD: LegendaryPostgres2025!
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - legendary-postgres-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U n3extpath_user -d n3extpath_legendary"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=database"
+      - "legendary.founder=rickroll187"
+      - "legendary.swiss_precision=maximum"
+      - "traefik.enable=false"
+
+  # =====================================
+  # 🔄 REDIS CACHE 🔄
+  # =====================================
+  legendary-redis:
+    image: redis:7-alpine
+    container_name: n3extpath-legendary-redis
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --appendonly yes 
+      --appendfsync everysec
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - legendary-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=cache"
+      - "legendary.performance=maximum"
+      - "traefik.enable=false"
+
+  # =====================================
+  # 🎸 LEGENDARY BACKEND API 🎸
+  # =====================================
+  legendary-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: n3extpath-legendary-backend
+    restart: unless-stopped
+    depends_on:
+      legendary-postgres:
+        condition: service_healthy
+      legendary-redis:
+        condition: service_healthy
+    environment:
+      # Application settings
+      APP_NAME: "N3EXTPATH Legendary Backend"
+      APP_VERSION: "1.0.0"
+      DEBUG: "false"
+      ENVIRONMENT: "production"
+      HOST: "0.0.0.0"
+      PORT: "8000"
+      
+      # Legendary settings
+      LEGENDARY_MODE: "true"
+      SWISS_PRECISION_ENABLED: "true"
+      CODE_BRO_ENERGY_LEVEL: "infinite"
+      FOUNDER_USERNAME: "rickroll187"
+      FOUNDER_EMAIL: "letstalktech010@gmail.com"
+      
+      # Database configuration
+      DATABASE_URL: "postgresql://n3extpath_user:LegendaryPostgres2025!@legendary-postgres:5432/n3extpath_legendary"
+      DATABASE_HOST: "legendary-postgres"
+      DATABASE_PORT: "5432"
+      DATABASE_NAME: "n3extpath_legendary"
+      DATABASE_USER: "n3extpath_user"
+      DATABASE_PASSWORD: "LegendaryPostgres2025!"
+      
+      # Redis configuration
+      REDIS_URL: "redis://legendary-redis:6379/0"
+      REDIS_HOST: "legendary-redis"
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
+      
+      # Security
+      SECRET_KEY: "legendary-secret-key-change-in-production-swiss-precision-2025"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+      
+      # CORS
+      ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:8080,https://n3extpath.legendary"
+      
+      # Email configuration
+      SMTP_HOST: "smtp.gmail.com"
+      SMTP_PORT: "587"
+      SMTP_USERNAME: "letstalktech010@gmail.com"
+      SMTP_TLS: "true"
+      EMAILS_FROM_EMAIL: "letstalktech010@gmail.com"
+      EMAILS_FROM_NAME: "N3EXTPATH Legendary Platform"
+      
+      # Feature flags
+      ENABLE_SWISS_PRECISION_MODE: "true"
+      ENABLE_CODE_BRO_ENERGY_TRACKING: "true"
+      ENABLE_LEGENDARY_CERTIFICATIONS: "true"
+      RICKROLL187_UNLIMITED_ACCESS: "true"
+      
+      # Seeding
+      SEED_DATABASE: "true"
+      
+    ports:
+      - "8000:8000"
+      - "9090:9090"  # Metrics port
+    volumes:
+      - legendary-uploads:/app/uploads
+      - legendary-logs:/app/logs
+      - ./backend:/app:delegated  # For development
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=backend"
+      - "legendary.founder=rickroll187"
+      - "legendary.swiss_precision=maximum"
+      - "legendary.code_bro_energy=infinite"
+      - "traefik.enable=true"
+      - "traefik.http.routers.legendary-backend.rule=Host(`api.n3extpath.legendary`)"
+      - "traefik.http.routers.legendary-backend.tls=true"
+      - "traefik.http.services.legendary-backend.loadbalancer.server.port=8000"
+
+  # =====================================
+  # 🌸 CELERY WORKER (BACKGROUND TASKS) 🌸
+  # =====================================
+  legendary-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: n3extpath-legendary-worker
+    restart: unless-stopped
+    depends_on:
+      legendary-postgres:
+        condition: service_healthy
+      legendary-redis:
+        condition: service_healthy
+      legendary-backend:
+        condition: service_healthy
+    environment:
+      # Inherit from backend
+      DATABASE_URL: "postgresql://n3extpath_user:LegendaryPostgres2025!@legendary-postgres:5432/n3extpath_legendary"
+      REDIS_URL: "redis://legendary-redis:6379/0"
+      CELERY_BROKER_URL: "redis://legendary-redis:6379/1"
+      CELERY_RESULT_BACKEND: "redis://legendary-redis:6379/2"
+      LEGENDARY_MODE: "true"
+      SWISS_PRECISION_ENABLED: "true"
+      CODE_BRO_ENERGY_LEVEL: "infinite"
+    command: ["celery", "-A", "main.celery", "worker", "--loglevel=info", "--concurrency=4"]
+    volumes:
+      - legendary-uploads:/app/uploads
+      - legendary-logs:/app/logs
+      - ./backend:/app:delegated
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=worker"
+      - "legendary.background_tasks=enabled"
+
+  # =====================================
+  # 🌺 FLOWER (CELERY MONITORING) 🌺
+  # =====================================
+  legendary-flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: n3extpath-legendary-flower
+    restart: unless-stopped
+    depends_on:
+      - legendary-redis
+      - legendary-worker
+    environment:
+      CELERY_BROKER_URL: "redis://legendary-redis:6379/1"
+      CELERY_RESULT_BACKEND: "redis://legendary-redis:6379/2"
+    command: ["celery", "-A", "main.celery", "flower", "--port=5555"]
+    ports:
+      - "5555:5555"
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=monitoring"
+      - "legendary.tool=flower"
+      - "traefik.enable=true"
+      - "traefik.http.routers.legendary-flower.rule=Host(`flower.n3extpath.legendary`)"
+
+  # =====================================
+  # 📊 PROMETHEUS (METRICS) 📊
+  # =====================================
+  legendary-prometheus:
+    image: prom/prometheus:latest
+    container_name: n3extpath-legendary-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=monitoring"
+      - "legendary.tool=prometheus"
+
+  # =====================================
+  # 📈 GRAFANA (DASHBOARDS) 📈
+  # =====================================
+  legendary-grafana:
+    image: grafana/grafana:latest
+    container_name: n3extpath-legendary-grafana
+    restart: unless-stopped
+    depends_on:
+      - legendary-prometheus
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: LegendaryGrafana2025!
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: "grafana-piechart-panel,grafana-worldmap-panel"
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=monitoring"
+      - "legendary.tool=grafana"
+      - "traefik.enable=true"
+      - "traefik.http.routers.legendary-grafana.rule=Host(`grafana.n3extpath.legendary`)"
+
+  # =====================================
+  # 🔍 ELASTICSEARCH (SEARCH) 🔍
+  # =====================================
+  legendary-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: n3extpath-legendary-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=search"
+      - "legendary.tool=elasticsearch"
+
+# =====================================
+# 🎸 LEGENDARY COMPLETION MESSAGE 🎸
+# =====================================
+# 🎸🎸🎸 N3EXTPATH LEGENDARY DOCKER COMPOSE 🎸🎸🎸
+# 
+# This legendary Docker Compose setup includes:
+# ✅ PostgreSQL Database with Swiss precision
+# ✅ Redis Cache for legendary performance  
+# ✅ FastAPI Backend with infinite code bro energy
+# ✅ Celery Workers for background legendary tasks
+# ✅ Flower for legendary task monitoring
+# ✅ Prometheus for Swiss precision metrics
+# ✅ Grafana for legendary dashboards
+# ✅ Elasticsearch for legendary search
+#
+# To start the legendary platform:
+# docker-compose up -d
+#
+# To view legendary logs:
+# docker-compose logs -f legendary-backend
+#
+# Built with Swiss precision by RICKROLL187!
+# Email: letstalktech010@gmail.com
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!

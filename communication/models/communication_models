@@ -1,0 +1,437 @@
+"""
+LEGENDARY EMPLOYEE COMMUNICATION & COLLABORATION MODELS 💬🤝
+More connected than a Swiss network with legendary bandwidth!
+CODE BROS CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+"""
+
+import enum
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Float, ForeignKey, JSON
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.declarative import declarative_base
+import uuid
+
+from ...core.database.base_models import BaseModel, Employee, User
+
+class MessageType(enum.Enum):
+    """Message types - more diverse than a Swiss communication menu!"""
+    DIRECT_MESSAGE = "direct_message"
+    CHANNEL_MESSAGE = "channel_message"
+    ANNOUNCEMENT = "announcement"
+    TEAM_UPDATE = "team_update"
+    SYSTEM_NOTIFICATION = "system_notification"
+    POLL = "poll"
+    FILE_SHARE = "file_share"
+    EVENT_INVITE = "event_invite"
+
+class ChannelType(enum.Enum):
+    """Channel types for organized communication"""
+    PUBLIC = "public"              # Everyone can see and join
+    PRIVATE = "private"            # Invitation only
+    DEPARTMENT = "department"      # Department-specific
+    PROJECT = "project"            # Project-specific
+    SOCIAL = "social"              # Social/casual conversations
+    ANNOUNCEMENT = "announcement"   # One-way announcements
+    SUPPORT = "support"            # Help and support
+
+class MessagePriority(enum.Enum):
+    """Message priority levels - more urgent than Swiss train schedules!"""
+    LOW = "low"
+    NORMAL = "normal"
+    HIGH = "high"
+    URGENT = "urgent"
+    CRITICAL = "critical"
+
+class NotificationType(enum.Enum):
+    """Notification types for smart delivery"""
+    IMMEDIATE = "immediate"        # Push notification
+    DIGEST = "digest"             # Included in daily digest
+    WEEKLY = "weekly"             # Weekly summary
+    MENTION_ONLY = "mention_only" # Only when mentioned
+    DISABLED = "disabled"         # No notifications
+
+class ReactionType(enum.Enum):
+    """Message reaction types - more expressive than Swiss emojis!"""
+    LIKE = "like"           # 👍
+    LOVE = "love"           # ❤️
+    LAUGH = "laugh"         # 😄
+    WOW = "wow"            # 😮
+    THUMBS_UP = "thumbs_up" # 👍
+    THUMBS_DOWN = "thumbs_down" # 👎
+    CELEBRATE = "celebrate" # 🎉
+    COFFEE = "coffee"      # ☕ (for code bros!)
+
+class CommunicationChannel(BaseModel):
+    """
+    Communication channels for organized conversations!
+    More organized than a Swiss filing system with legendary structure! 📁💬
+    """
+    __tablename__ = "communication_channels"
+    
+    # Basic Information
+    name = Column(String(100), nullable=False, index=True)
+    display_name = Column(String(150), nullable=False)
+    description = Column(Text)
+    channel_type = Column(String(20), nullable=False, index=True)  # ChannelType enum
+    
+    # Channel Settings
+    is_private = Column(Boolean, default=False, index=True)
+    is_archived = Column(Boolean, default=False, index=True)
+    is_read_only = Column(Boolean, default=False)
+    allow_file_uploads = Column(Boolean, default=True)
+    allow_reactions = Column(Boolean, default=True)
+    
+    # Organization
+    department_id = Column(Integer, ForeignKey("departments.id"), nullable=True, index=True)
+    project_id = Column(Integer, nullable=True, index=True)  # Reference to project if applicable
+    parent_channel_id = Column(Integer, ForeignKey("communication_channels.id"), nullable=True)
+    
+    # Ownership & Moderation
+    created_by_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    moderator_ids = Column(JSON)  # List of employee IDs who can moderate
+    
+    # Activity Tracking
+    last_message_at = Column(DateTime(timezone=True))
+    message_count = Column(Integer, default=0)
+    member_count = Column(Integer, default=0)
+    
+    # Notifications
+    default_notification_type = Column(String(20), default="normal")  # NotificationType enum
+    
+    # Relationships
+    created_by = relationship("Employee", foreign_keys=[created_by_id])
+    department = relationship("Department", foreign_keys=[department_id])
+    parent_channel = relationship("CommunicationChannel", remote_side="CommunicationChannel.id")
+    sub_channels = relationship("CommunicationChannel", back_populates="parent_channel")
+    
+    memberships = relationship("ChannelMembership", back_populates="channel")
+    messages = relationship("Message", back_populates="channel")
+    
+    def __repr__(self):
+        return f"<CommunicationChannel(name='{self.name}', type='{self.channel_type}')>"
+
+class ChannelMembership(BaseModel):
+    """
+    Channel membership and permissions!
+    More exclusive than a Swiss club with legendary membership benefits! 🎩🌟
+    """
+    __tablename__ = "channel_memberships"
+    
+    # References
+    channel_id = Column(Integer, ForeignKey("communication_channels.id"), nullable=False, index=True)
+    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    
+    # Membership Details
+    joined_at = Column(DateTime(timezone=True), server_default=func.now())
+    invited_by_id = Column(Integer, ForeignKey("employees.id"), nullable=True)
+    left_at = Column(DateTime(timezone=True))
+    
+    # Permissions
+    can_post = Column(Boolean, default=True)
+    can_invite_others = Column(Boolean, default=False)
+    is_moderator = Column(Boolean, default=False)
+    is_admin = Column(Boolean, default=False)
+    
+    # Notification Preferences
+    notification_type = Column(String(20), default="normal")  # NotificationType enum
+    mute_until = Column(DateTime(timezone=True))
+    
+    # Activity Tracking
+    last_read_message_id = Column(Integer, nullable=True)
+    last_active_at = Column(DateTime(timezone=True))
+    
+    # Status
+    is_active = Column(Boolean, default=True, index=True)
+    
+    # Relationships
+    channel = relationship("CommunicationChannel", back_populates="memberships")
+    employee = relationship("Employee", foreign_keys=[employee_id])
+    invited_by = relationship("Employee", foreign_keys=[invited_by_id])
+    
+    def __repr__(self):
+        return f"<ChannelMembership(channel_id={self.channel_id}, employee_id={self.employee_id})>"
+
+class Message(BaseModel):
+    """
+    Messages that are more expressive than Swiss poetry!
+    More engaging than a legendary conversation with attitude! 💭✨
+    """
+    __tablename__ = "messages"
+    
+    # References
+    channel_id = Column(Integer, ForeignKey("communication_channels.id"), nullable=True, index=True)
+    sender_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    recipient_id = Column(Integer, ForeignKey("employees.id"), nullable=True, index=True)  # For DMs
+    
+    # Message Content
+    message_type = Column(String(30), nullable=False, index=True)  # MessageType enum
+    content = Column(Text, nullable=False)
+    formatted_content = Column(Text)  # HTML or markdown formatted content
+    
+    # Message Properties
+    priority = Column(String(20), default="normal", index=True)  # MessagePriority enum
+    is_edited = Column(Boolean, default=False)
+    edited_at = Column(DateTime(timezone=True))
+    is_deleted = Column(Boolean, default=False, index=True)
+    deleted_at = Column(DateTime(timezone=True))
+    
+    # Threading
+    parent_message_id = Column(Integer, ForeignKey("messages.id"), nullable=True, index=True)
+    thread_root_id = Column(Integer, ForeignKey("messages.id"), nullable=True, index=True)
+    reply_count = Column(Integer, default=0)
+    
+    # Attachments & Media
+    attachments = Column(JSON)  # List of file attachments
+    mentions = Column(JSON)     # List of mentioned employee IDs
+    hashtags = Column(JSON)     # List of hashtags
+    
+    # Reactions & Engagement
+    reaction_counts = Column(JSON)  # Count of each reaction type
+    read_by = Column(JSON)          # List of employee IDs who read the message
+    
+    # Scheduling (for announcements)
+    scheduled_for = Column(DateTime(timezone=True))
+    is_scheduled = Column(Boolean, default=False, index=True)
+    
+    # System Messages
+    system_data = Column(JSON)  # Additional data for system messages
+    
+    # Relationships
+    channel = relationship("CommunicationChannel", back_populates="messages")
+    sender = relationship("Employee", foreign_keys=[sender_id])
+    recipient = relationship("Employee", foreign_keys=[recipient_id])
+    parent_message = relationship("Message", remote_side="Message.id", foreign_keys=[parent_message_id])
+    thread_root = relationship("Message", remote_side="Message.id", foreign_keys=[thread_root_id])
+    
+    reactions = relationship("MessageReaction", back_populates="message")
+    
+    def __repr__(self):
+        return f"<Message(id={self.id}, sender_id={self.sender_id}, type='{self.message_type}')>"
+
+class MessageReaction(BaseModel):
+    """
+    Message reactions for expressive communication!
+    More expressive than Swiss emojis with legendary style! 😄🎭
+    """
+    __tablename__ = "message_reactions"
+    
+    # References
+    message_id = Column(Integer, ForeignKey("messages.id"), nullable=False, index=True)
+    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    
+    # Reaction Details
+    reaction_type = Column(String(20), nullable=False, index=True)  # ReactionType enum
+    reaction_emoji = Column(String(10))  # Unicode emoji
+    reacted_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Relationships
+    message = relationship("Message", back_populates="reactions")
+    employee = relationship("Employee")
+    
+    def __repr__(self):
+        return f"<MessageReaction(message_id={self.message_id}, employee_id={self.employee_id}, type='{self.reaction_type}')>"
+
+class DirectConversation(BaseModel):
+    """
+    Direct conversations between employees!
+    More private than a Swiss bank vault with legendary security! 🔒💬
+    """
+    __tablename__ = "direct_conversations"
+    
+    # Participants
+    participant1_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    participant2_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    
+    # Conversation Properties
+    is_archived = Column(Boolean, default=False, index=True)
+    is_muted_by_participant1 = Column(Boolean, default=False)
+    is_muted_by_participant2 = Column(Boolean, default=False)
+    
+    # Activity Tracking
+    last_message_at = Column(DateTime(timezone=True))
+    message_count = Column(Integer, default=0)
+    
+    # Read Status
+    participant1_last_read_at = Column(DateTime(timezone=True))
+    participant2_last_read_at = Column(DateTime(timezone=True))
+    
+    # Relationships
+    participant1 = relationship("Employee", foreign_keys=[participant1_id])
+    participant2 = relationship("Employee", foreign_keys=[participant2_id])
+    
+    def __repr__(self):
+        return f"<DirectConversation(participant1_id={self.participant1_id}, participant2_id={self.participant2_id})>"
+
+class Announcement(BaseModel):
+    """
+    Company announcements and important communications!
+    More official than a Swiss government decree with legendary clarity! 📢🏛️
+    """
+    __tablename__ = "announcements"
+    
+    # Basic Information
+    title = Column(String(200), nullable=False, index=True)
+    content = Column(Text, nullable=False)
+    summary = Column(Text)  # Brief summary for notifications
+    
+    # Announcement Properties
+    announcement_type = Column(String(50), nullable=False, index=True)  # company_wide, department, team, etc.
+    priority = Column(String(20), default="normal", index=True)  # MessagePriority enum
+    category = Column(String(50), index=True)  # hr, tech, social, policy, etc.
+    
+    # Publishing
+    author_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    published_at = Column(DateTime(timezone=True))
+    is_published = Column(Boolean, default=False, index=True)
+    is_draft = Column(Boolean, default=True, index=True)
+    
+    # Targeting
+    target_departments = Column(JSON)  # List of department IDs
+    target_teams = Column(JSON)       # List of team IDs
+    target_employees = Column(JSON)    # List of specific employee IDs
+    exclude_employees = Column(JSON)   # List of employee IDs to exclude
+    
+    # Scheduling
+    scheduled_for = Column(DateTime(timezone=True))
+    expires_at = Column(DateTime(timezone=True))
+    
+    # Engagement
+    view_count = Column(Integer, default=0)
+    read_by = Column(JSON)  # List of employee IDs who read the announcement
+    acknowledgment_required = Column(Boolean, default=False)
+    acknowledged_by = Column(JSON)  # List of employee IDs who acknowledged
+    
+    # Attachments
+    attachments = Column(JSON)  # List of file attachments
+    external_links = Column(JSON)  # List of external links
+    
+    # Relationships
+    author = relationship("Employee", foreign_keys=[author_id])
+    
+    def __repr__(self):
+        return f"<Announcement(title='{self.title}', published={self.is_published})>"
+
+class CommunicationPoll(BaseModel):
+    """
+    Interactive polls for team decision making!
+    More engaging than a Swiss referendum with legendary participation! 🗳️📊
+    """
+    __tablename__ = "communication_polls"
+    
+    # Poll Details
+    question = Column(String(500), nullable=False)
+    description = Column(Text)
+    poll_type = Column(String(30), default="single_choice")  # single_choice, multiple_choice, rating, open_text
+    
+    # Options
+    options = Column(JSON, nullable=False)  # List of poll options
+    max_selections = Column(Integer, default=1)  # For multiple choice polls
+    
+    # References
+    channel_id = Column(Integer, ForeignKey("communication_channels.id"), nullable=True, index=True)
+    created_by_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    message_id = Column(Integer, ForeignKey("messages.id"), nullable=True)  # Associated message
+    
+    # Timing
+    starts_at = Column(DateTime(timezone=True), server_default=func.now())
+    ends_at = Column(DateTime(timezone=True))
+    
+    # Settings
+    is_anonymous = Column(Boolean, default=False)
+    allow_multiple_votes = Column(Boolean, default=False)
+    show_results_before_voting = Column(Boolean, default=False)
+    
+    # Results
+    total_votes = Column(Integer, default=0)
+    results = Column(JSON)  # Vote counts per option
+    
+    # Status
+    is_active = Column(Boolean, default=True, index=True)
+    is_closed = Column(Boolean, default=False, index=True)
+    
+    # Relationships
+    channel = relationship("CommunicationChannel")
+    created_by = relationship("Employee", foreign_keys=[created_by_id])
+    message = relationship("Message", foreign_keys=[message_id])
+    votes = relationship("PollVote", back_populates="poll")
+    
+    def __repr__(self):
+        return f"<CommunicationPoll(question='{self.question[:50]}...', votes={self.total_votes})>"
+
+class PollVote(BaseModel):
+    """
+    Individual poll votes!
+    More decisive than Swiss precision voting! ✅🗳️
+    """
+    __tablename__ = "poll_votes"
+    
+    # References
+    poll_id = Column(Integer, ForeignKey("communication_polls.id"), nullable=False, index=True)
+    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False, index=True)
+    
+    # Vote Details
+    selected_options = Column(JSON, nullable=False)  # List of selected option IDs
+    text_response = Column(Text)  # For open text polls
+    voted_at = Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Vote Properties
+    is_anonymous = Column(Boolean, default=False)
+    vote_weight = Column(Float, default=1.0)  # For weighted voting if needed
+    
+    # Relationships
+    poll = relationship("CommunicationPoll", back_populates="votes")
+    employee = relationship("Employee")
+    
+    def __repr__(self):
+        return f"<PollVote(poll_id={self.poll_id}, employee_id={self.employee_id})>"
+
+class NotificationPreference(BaseModel):
+    """
+    Employee notification preferences!
+    More customizable than a Swiss watch with legendary personalization! ⚙️🔔
+    """
+    __tablename__ = "notification_preferences"
+    
+    # Reference
+    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False, unique=True, index=True)
+    
+    # Global Preferences
+    email_notifications = Column(Boolean, default=True)
+    push_notifications = Column(Boolean, default=True)
+    desktop_notifications = Column(Boolean, default=True)
+    mobile_notifications = Column(Boolean, default=True)
+    
+    # Timing Preferences
+    quiet_hours_start = Column(String(5))  # HH:MM format
+    quiet_hours_end = Column(String(5))    # HH:MM format
+    weekend_notifications = Column(Boolean, default=False)
+    
+    # Content Preferences
+    direct_messages = Column(String(20), default="immediate")     # NotificationType enum
+    mentions = Column(String(20), default="immediate")           # NotificationType enum
+    channel_messages = Column(String(20), default="digest")      # NotificationType enum
+    announcements = Column(String(20), default="immediate")      # NotificationType enum
+    team_updates = Column(String(20), default="digest")         # NotificationType enum
+    
+    # Digest Settings
+    daily_digest_time = Column(String(5), default="09:00")  # HH:MM format
+    weekly_digest_day = Column(String(10), default="monday") # Day of week
+    include_read_messages_in_digest = Column(Boolean, default=False)
+    
+    # Advanced Settings
+    notification_sound = Column(String(50), default="default")
+    vibration_pattern = Column(String(50), default="default")
+    
+    # Relationships
+    employee = relationship("Employee")
+    
+    def __repr__(self):
+        return f"<NotificationPreference(employee_id={self.employee_id})>"
+
+# Add relationships to Employee model (if not already added)
+# Employee.created_channels = relationship("CommunicationChannel", foreign_keys="CommunicationChannel.created_by_id")
+# Employee.channel_memberships = relationship("ChannelMembership", foreign_keys="ChannelMembership.employee_id")
+# Employee.sent_messages = relationship("Message", foreign_keys="Message.sender_id")
+# Employee.received_messages = relationship("Message", foreign_keys="Message.recipient_id")
+# Employee.notification_preferences = relationship("NotificationPreference", uselist=False)

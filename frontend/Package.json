@@ -1,0 +1,250 @@
+{
+  "name": "n3extpath-legendary-frontend",
+  "version": "1.0.0",
+  "description": "🎸 N3EXTPATH HR Platform - Legendary Frontend built with Swiss precision by RICKROLL187 🎸",
+  "private": true,
+  "homepage": "https://n3extpath.com",
+  "author": {
+    "name": "RICKROLL187",
+    "email": "rickroll187@n3extpath.com",
+    "url": "https://github.com/rickroll187"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/n3extpath/legendary-hr-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/n3extpath/legendary-hr-platform/issues"
+  },
+  "keywords": [
+    "hr",
+    "platform",
+    "react",
+    "typescript",
+    "legendary",
+    "swiss-precision",
+    "code-bros",
+    "rickroll187",
+    "n3extpath"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build:legendary": "REACT_APP_LEGENDARY_MODE=true npm run build",
+    "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "test:legendary": "REACT_APP_LEGENDARY_MODE=true react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
+    "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,scss,md}",
+    "format:check": "prettier --check src/**/*.{ts,tsx,js,jsx,json,css,scss,md}",
+    "type-check": "tsc --noEmit",
+    "analyze": "npm run build && npx bundle-analyzer build/static/js/*.js",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "serve": "serve -s build -l 3000",
+    "legendary:activate": "echo '🎸 LEGENDARY MODE ACTIVATED! 🎸' && REACT_APP_LEGENDARY_MODE=true npm start",
+    "swiss:precision": "echo '⚡ Swiss Precision Mode Enabled ⚡' && REACT_APP_SWISS_PRECISION=true npm start",
+    "code:bros": "echo '💪 CODE BROS UNITE! 💪' And npm start"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "redux-persist": "^6.0.0",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^5.2.2",
+    "axios": "^1.5.1",
+    "formik": "^2.4.5",
+    "yup": "^1.3.3",
+    "framer-motion": "^10.16.4",
+    "react-toastify": "^9.1.3",
+    "react-query": "^3.39.3",
+    "@tanstack/react-query": "^4.35.7",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "recharts": "^2.8.0",
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.4.0",
+    "react-table": "^7.8.0",
+    "react-virtualized": "^9.22.5",
+    "react-window": "^1.8.8",
+    "react-select": "^5.7.7",
+    "react-datepicker": "^4.21.0",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.47.0",
+    "react-intersection-observer": "^9.5.2",
+    "react-lazyload": "^3.2.0",
+    "react-helmet-async": "^1.3.0",
+    "react-error-boundary": "^4.0.11",
+    "workbox-webpack-plugin": "^7.0.0",
+    "web-vitals": "^3.5.0",
+    "socket.io-client": "^4.7.2",
+    "uuid": "^9.0.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "classnames": "^2.3.2",
+    "react-transition-group": "^4.4.5",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.11",
+    "@types/node": "^20.8.6",
+    "@types/uuid": "^9.0.5",
+    "@types/lodash": "^4.14.199",
+    "@types/react-table": "^7.7.17",
+    "@types/react-virtualized": "^9.21.24",
+    "@types/react-window": "^1.8.7",
+    "@types/react-transition-group": "^4.4.8",
+    "@types/react-beautiful-dnd": "^13.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-import": "^2.28.1",
+    "prettier": "^3.0.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/user-event": "^14.5.1",
+    "jest": "^27.5.1",
+    "msw": "^1.3.2",
+    "@storybook/react": "^7.4.6",
+    "@storybook/addon-essentials": "^7.4.6",
+    "@storybook/addon-docs": "^7.4.6",
+    "@storybook/addon-controls": "^7.4.6",
+    "chromatic": "^7.4.0",
+    "serve": "^14.2.1",
+    "webpack-bundle-analyzer": "^4.9.1",
+    "source-map-explorer": "^2.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "warn",
+            "error",
+            "info"
+          ]
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "react-hooks/exhaustive-deps": "warn",
+      "jsx-a11y/no-autofocus": "off"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run type-check && npm run test:coverage"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/setupTests.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    }
+  },
+  "proxy": "http://localhost:8000",
+  "resolutions": {
+    "webpack": "^5.88.0"
+  },
+  "overrides": {
+    "react-scripts": {
+      "typescript": "^5.2.2"
+    }
+  },
+  "config": {
+    "legendary_mode": true,
+    "swiss_precision": true,
+    "code_bro_energy": "maximum",
+    "rickroll187_features": true
+  },
+  "custom": {
+    "legendary_founder": "rickroll187",
+    "built_with": "Swiss precision and maximum code bro energy",
+    "motto": "WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!",
+    "special_features": [
+      "Legendary user detection",
+      "Swiss precision animations",
+      "Code bro energy maximization",
+      "RICKROLL187 exclusive features",
+      "Automated HR with zero bias",
+      "Real-time WebSocket communication",
+      "Advanced state management",
+      "Professional UI/UX design"
+    ]
+  }
+}

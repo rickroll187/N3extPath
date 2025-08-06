@@ -1,0 +1,241 @@
+# File: helm/n3extpath/values.yaml
+# N3EXTPATH HR Platform - Legendary Helm Values
+# Built: 2025-08-05 16:33:22 UTC by RICKROLL187
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+# Global configuration
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""
+  legendary:
+    enabled: true
+    founder: "rickroll187"
+    swissPrecision: true
+    codeBroJokes: true
+
+# Application metadata
+app:
+  name: "N3EXTPATH HR Platform"
+  version: "1.0.0-LEGENDARY"
+  environment: "production"
+  namespace: "n3extpath-legendary"
+
+# Backend configuration
+backend:
+  enabled: true
+  image:
+    registry: n3extpath
+    repository: backend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  replicaCount: 3
+  
+  service:
+    type: LoadBalancer
+    port: 8000
+    targetPort: 8000
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+  
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+  
+  probes:
+    liveness:
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+    readiness:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+  
+  config:
+    APP_NAME: "N3EXTPATH HR Platform"
+    LEGENDARY_MODE: "enabled"
+    RICKROLL187_MODE: "true"
+    SWISS_PRECISION: "enabled"
+    CODE_BRO_JOKES: "enabled"
+    LOG_LEVEL: "INFO"
+    PROMETHEUS_ENABLED: "true"
+
+# Frontend configuration
+frontend:
+  enabled: true
+  image:
+    registry: n3extpath
+    repository: frontend
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  
+  replicaCount: 2
+  
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 80
+  
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+# PostgreSQL configuration
+postgresql:
+  enabled: true
+  image:
+    registry: ""
+    repository: postgres
+    tag: "15-alpine"
+  
+  auth:
+    postgresUser: "n3extpath_user"
+    postgresPassword: "legendary-db-password"
+    database: "n3extpath_hr"
+  
+  persistence:
+    enabled: true
+    size: "10Gi"
+    storageClass: "gp2"
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+# Redis configuration
+redis:
+  enabled: true
+  image:
+    registry: ""
+    repository: redis
+    tag: "7-alpine"
+  
+  auth:
+    enabled: true
+    password: "legendary-redis-password"
+  
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+# Monitoring configuration
+monitoring:
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      labels:
+        app: n3extpath-hr
+        built-by: rickroll187
+  
+  grafana:
+    enabled: true
+    adminPassword: "legendary-grafana-password"
+    dashboards:
+      enabled: true
+      legendary: true
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: n3extpath.com
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+  tls:
+    - secretName: n3extpath-tls
+      hosts:
+        - n3extpath.com
+
+# Security configuration
+security:
+  networkPolicies:
+    enabled: true
+  
+  podSecurityPolicy:
+    enabled: true
+  
+  secrets:
+    secretKey: "legendary-secret-key-change-in-production"
+    jwtSecret: "legendary-jwt-secret"
+
+# Legendary features
+legendary:
+  rickroll187:
+    enabled: true
+    specialPrivileges: true
+    legendaryStatus: "maximum"
+  
+  swissPrecision:
+    enabled: true
+    timingAccuracy: "nanosecond"
+    performanceOptimization: "maximum"
+  
+  codeBroFeatures:
+    jokes: true
+    funMode: true
+    teamSpirit: "maximum"
+    
+  easterEggs:
+    enabled: true
+    konamiCode: true
+    rickrollProbability: 0.001
+    legendaryMessages: true
+
+# Backup configuration
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: "30d"
+  storage:
+    type: "s3"
+    bucket: "n3extpath-backups"
+    region: "us-west-2"
+
+# Disaster recovery
+disasterRecovery:
+  enabled: true
+  replication:
+    enabled: true
+    regions: ["us-west-2", "us-east-1"]
+  
+  rto: "1h"  # Recovery Time Objective
+  rpo: "15m" # Recovery Point Objective

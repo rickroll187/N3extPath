@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="N3nextPath - The Legendary Path Platform built by RICKROLL187 with Swiss precision and code bro humor!">
+    <meta name="keywords" content="paths, navigation, legendary, code bros, RICKROLL187, Swiss precision">
+    <meta name="author" content="RICKROLL187 - The Legendary Code Rock Star">
+    
+    <title>{% block title %}N3nextPath - The Legendary Path Platform{% endblock %}</title>
+    
+    <!-- 🎸 LEGENDARY FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
+    <!-- 🎨 LEGENDARY STYLES -->
+    <link rel="stylesheet" href="/static/css/legendary_styles.css">
+    
+    <!-- ⚡ LEGENDARY META TAGS -->
+    <meta property="og:title" content="N3nextPath - The Legendary Path Platform">
+    <meta property="og:description" content="More navigational than Swiss GPS with legendary path-finding mastery! Built by RICKROLL187.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://n3nextpath.legendary.dev">
+    <meta property="og:image" content="/static/images/logo.png">
+    
+    <!-- 🎸 LEGENDARY TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="N3nextPath - The Legendary Path Platform">
+    <meta name="twitter:description" content="WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!">
+    <meta name="twitter:creator" content="@rickroll187">
+    
+    <!-- 📊 LEGENDARY PERFORMANCE HINTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//api.n3nextpath.dev">
+    
+    <!-- 🚀 LEGENDARY ADDITIONAL STYLES -->
+    {% block extra_head %}{% endblock %}
+    
+    <style>
+        /* 🎸 LEGENDARY INLINE STYLES FOR INSTANT LOADING */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .legendary-loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            text-align: center;
+        }
+        
+        .legendary-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,215,0,0.3);
+            border-radius: 50%;
+            border-top-color: #ffd700;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 🚀 LEGENDARY LOADING SCREEN -->
+    <div id="legendary-loading" class="legendary-loading">
+        <div class="legendary-spinner"></div>
+        <p style="color: #ffd700; margin-top: 20px; font-weight: bold;">
+            🎸 Loading Legendary Content... 🎸
+        </p>
+    </div>
+
+    <!-- 🎸 LEGENDARY HEADER -->
+    <header class="legendary-header">
+        <nav class="legendary-nav">
+            <div class="legendary-container">
+                <div class="nav-brand">
+                    <a href="/" class="brand-link">
+                        <img src="/static/images/logo.png" alt="N3nextPath Logo" class="brand-logo">
+                        <span class="brand-text">
+                            🛤️ N3NEXTPATH 🛤️
+                        </span>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link {% if request.url.path == '/' %}active{% endif %}">
+                                🏠 Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/paths" class="nav-link {% if '/paths' in request.url.path %}active{% endif %}">
+                                🛤️ Paths
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link {% if '/dashboard' in request.url.path %}active{% endif %}">
+                                📊 Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/gamification" class="nav-link {% if '/gamification' in request.url.path %}active{% endif %}">
+                                🎮 Achievements
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/premium" class="nav-link {% if '/premium' in request.url.path %}active{% endif %}">
+                                💎 Premium
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/docs" class="nav-link">
+                                📚 Docs
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    {% if current_user %}
+                        <div class="user-menu">
+                            <button class="user-menu-toggle" id="user-menu-toggle">
+                                <img src="{{ current_user.avatar_url or '/static/images/default-avatar.png' }}" 
+                                     alt="{{ current_user.username }}" class="user-avatar">
+                                <span class="user-name">{{ current_user.username }}</span>
+                                {% if current_user.rickroll187_approved %}
+                                    <span class="legendary-badge">👑</span>
+                                {% elif current_user.is_legendary %}
+                                    <span class="legendary-badge">🏆</span>
+                                {% endif %}
+                            </button>
+                            <div class="user-dropdown" id="user-dropdown">
+                                <a href="/profile" class="dropdown-item">👤 Profile</a>
+                                <a href="/settings" class="dropdown-item">⚙️ Settings</a>
+                                {% if current_user.role in ['admin', 'rickroll187'] %}
+                                    <a href="/admin" class="dropdown-item">👑 Admin</a>
+                                {% endif %}
+                                <hr class="dropdown-divider">
+                                <a href="/logout" class="dropdown-item">👋 Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="auth-buttons">
+                            <a href="/login" class="legendary-btn legendary-btn-primary">🔐 Login</a>
+                            <a href="/register" class="legendary-btn legendary-btn-success">🚀 Join</a>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- 📱 MOBILE MENU TOGGLE -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 🌟 LEGENDARY MAIN CONTENT -->
+    <main class="legendary-main">
+        {% block content %}
+        <!-- Default legendary content -->
+        <div class="legendary-container">
+            <h1>🎸 Welcome to N3nextPath! 🎸</h1>
+            <p>More navigational than Swiss GPS with legendary path-finding mastery!</p>
+            <div class="rickroll187-signature">
+                🎸 "WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!" 🎸<br>
+                <strong>- RICKROLL187, The Legendary Code Rock Star</strong>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <!-- 🏆 LEGENDARY FOOTER -->
+    <footer class="legendary-footer">
+        <div class="legendary-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🛤️ N3nextPath</h3>
+                    <p>The legendary path platform built with Swiss precision and code bro humor!</p>
+                    <div class="social-links">
+                        <a href="https://github.com/rickroll187/n3nextpath" class="social-link">
+                            <span class="social-icon">🐙</span> GitHub
+                        </a>
+                        <a href="https://twitter.com/rickroll187" class="social-link">
+                            <span class="social-icon">🐦</span> Twitter
+                        </a>
+                        <a href="mailto:rickroll187@legendary.dev" class="social-link">
+                            <span class="social-icon">📧</span> Email
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>🚀 Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="/paths">🛤️ Explore Paths</a></li>
+                        <li><a href="/create">✨ Create Path</a></li>
+                        <li><a href="/dashboard">📊 Dashboard</a></li>
+                        <li><a href="/premium">💎 Premium</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>🎮 Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="/leaderboard">🏆 Leaderboard</a></li>
+                        <li><a href="/achievements">🏅 Achievements</a></li>
+                        <li><a href="/forum">💬 Forum</a></li>
+                        <li><a href="/support">🛟 Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>📚 Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/docs">📖 Documentation</a></li>
+                        <li><a href="/api">🔌 API</a></li>
+                        <li><a href="/status">📊 System Status</a></li>
+                        <li><a href="/changelog">📝 Changelog</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2025 N3nextPath - Built by <strong>RICKROLL187</strong> 🎸</p>
+                    <p>Licensed under the Legendary MIT License</p>
+                    <div class="legal-links">
+                        <a href="/privacy">🔒 Privacy</a>
+                        <a href="/terms">📋 Terms</a>
+                        <a href="/cookies">🍪 Cookies</a>
+                    </div>
+                </div>
+                
+                <div class="footer-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="response-time">--ms</span>
+                        <span class="stat-label">Response Time</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">17:23:05 UTC</span>
+                        <span class="stat-label">Build Time</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">🏆</span>
+                        <span class="stat-label">Legendary</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rickroll187-footer-signature">
+                🎸 "This template was crafted with legendary precision, Swiss attention to detail, and infinite code bro humor!" 🎸<br>
+                <strong>- RICKROLL187, The Legendary Template Master at 2025-08-04 17:23:05 UTC</strong>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ⚡ LEGENDARY JAVASCRIPT -->
+    <script>
+        // 🚀 LEGENDARY PAGE LOAD HANDLER
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen
+            const loading = document.getElementById('legendary-loading');
+            if (loading) {
+                loading.style.display = 'none';
+            }
+            
+            // 📱 Mobile menu toggle
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileToggle && navMenu) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    mobileToggle.classList.toggle('active');
+                });
+            }
+            
+            // 👤 User menu toggle
+            const userMenuToggle = document.getElementById('user-menu-toggle');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            if (userMenuToggle && userDropdown) {
+                userMenuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userDropdown.classList.toggle('active');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    userDropdown.classList.remove('active');
+                });
+            }
+            
+            // 📊 Update response time
+            const responseTimeEl = document.getElementById('response-time');
+            if (responseTimeEl) {
+                const startTime = performance.now();
+                window.addEventListener('load', function() {
+                    const loadTime = Math.round(performance.now() - startTime);
+                    responseTimeEl.textContent = loadTime + 'ms';
+                    
+                    // Add legendary performance indicator
+                    if (loadTime < 100) {
+                        responseTimeEl.style.color = '#00ff88';
+                        responseTimeEl.title = 'LEGENDARY SPEED! ⚡';
+                    } else if (loadTime < 500) {
+                        responseTimeEl.style.color = '#ffd700';
+                        responseTimeEl.title = 'Good Performance 👍';
+                    } else {
+                        responseTimeEl.style.color = '#ff6b6b';
+                        responseTimeEl.title = 'Needs Optimization 🔧';
+                    }
+                });
+            }
+            
+            // 🎸 Add legendary animations to elements
+            const legendaryElements = document.querySelectorAll('.legendary-card, .legendary-btn');
+            legendaryElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // 🎭 Random legendary joke generator
+            const legendaryJokes = [
+                "Why is this page legendary? Because it loads faster than RICKROLL187's guitar solos! 🎸⚡",
+                "What's more responsive than Swiss watches? This legendary template! ⌚",
+                "Why don't code bros fear slow pages? Because they build with legendary speed! 💪",
+                "What do you call perfect loading? A RICKROLL187 template special! 🎸🚀"
+            ];
+            
+            // Show random joke on page load (10% chance)
+            if (Math.random() < 0.1) {
+                setTimeout(() => {
+                    const joke = legendaryJokes[Math.floor(Math.random() * legendaryJokes.length)];
+                    showLegendaryNotification(joke, 'joke');
+                }, 2000);
+            }
+        });
+        
+        // 🎉 LEGENDARY NOTIFICATION SYSTEM
+        function showLegendaryNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `legendary-notification legendary-notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">
+                        ${type === 'joke' ? '😄' : type === 'success' ? '✅' : type === 'error' ? '❌' : '📋'}
+                    </span>
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // 🌟 LEGENDARY GLOBAL FUNCTIONS
+        window.legendary = {
+            showNotification: showLegendaryNotification,
+            
+            // 🎸 RICKROLL187 Easter Egg
+            rickroll187: function() {
+                showLegendaryNotification(
+                    "🎸 RICKROLL187 says: You found the legendary easter egg! You're a true code bro! 🎸",
+                    'success'
+                );
+                
+                // Add legendary sparkles
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        sparkle.textContent = '✨';
+                        sparkle.style.position = 'fixed';
+                        sparkle.style.left = Math.random() * 100 + 'vw';
+                        sparkle.style.top = Math.random() * 100 + 'vh';
+                        sparkle.style.fontSize = '2rem';
+                        sparkle.style.pointerEvents = 'none';
+                        sparkle.style.zIndex = '9999';
+                        sparkle.style.animation = 'legendary-sparkle 2s ease-out forwards';
+                        
+                        document.body.appendChild(sparkle);
+                        
+                        setTimeout(() => sparkle.remove(), 2000);
+                    }, i * 100);
+                }
+            }
+        };
+        
+        // 🎵 Konami code for RICKROLL187 easter egg
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konamiSequence.length && 
+                konamiCode.every((code, i) => code === konamiSequence[i])) {
+                window.legendary.rickroll187();
+                konamiCode = [];
+            }
+        });
+    </script>
+    
+    <!-- 🎸 LEGENDARY ADDITIONAL SCRIPTS -->
+    {% block extra_scripts %}{% endblock %}
+    
+    <!-- 📊 LEGENDARY ANALYTICS (Optional) -->
+    {% if config.ANALYTICS_ENABLED %}
+    <script>
+        // Add your analytics code here
+        console.log('📊 Legendary analytics tracking activated!');
+    </script>
+    {% endif %}
+    
+    <style>
+        /* 🎸 LEGENDARY NOTIFICATION STYLES */
+        .legendary-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 400px;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 10000;
+            animation: legendary-slide-in 0.3s ease-out;
+            backdrop-filter: blur(10px);
+        }
+        
+        .legendary-notification-joke {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.1);
+        }
+        
+        .legendary-notification-success {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.1);
+        }
+        
+        .legendary-notification-error {
+            border-color: #ff6b6b;
+            background: rgba(255,107,107,0.1);
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+        
+        .notification-message {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: #ffd700;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-close:hover {
+            color: white;
+        }
+        
+        @keyframes legendary-sparkle {
+            0% { 
+                opacity: 1; 
+                transform: scale(0) rotate(0deg); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(1.5) rotate(180deg); 
+            }
+        }
+    </style>
+</body>
+</html>
+
+<!--
+🎸 LEGENDARY BASE TEMPLATE COMPLETE! 🎸
+More beautiful than Swiss design with code bro HTML mastery!
+Built by RICKROLL187 at 2025-08-04 17:23:05 UTC
+WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+-->

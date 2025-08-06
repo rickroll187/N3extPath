@@ -1,0 +1,496 @@
+{% extends "base.html" %}
+
+{% block title %}N3nextPath - The Legendary Path Platform | Home{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Welcome to N3nextPath - The legendary path platform built by RICKROLL187 with Swiss precision and code bro humor!">
+<style>
+    /* 🏠 HOME PAGE SPECIFIC STYLES */
+    .hero-section {
+        padding: 100px 0;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+        backdrop-filter: blur(10px);
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #ffd700, #00ff88);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: legendary-pulse 2s ease-in-out infinite;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .hero-buttons {
+        margin-top: 40px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+    
+    .feature-card {
+        background: rgba(255,255,255,0.1);
+        padding: 30px;
+        border-radius: 15px;
+        border: 2px solid rgba(255,215,0,0.3);
+        text-align: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: #ffd700;
+        box-shadow: 0 20px 40px rgba(255,215,0,0.2);
+    }
+    
+    .feature-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .feature-title {
+        font-size: 1.8rem;
+        color: #ffd700;
+        margin-bottom: 15px;
+    }
+    
+    .stats-section {
+        background: rgba(0,0,0,0.3);
+        padding: 60px 0;
+        margin: 60px 0;
+        border-radius: 20px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .stat-item {
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #00ff88;
+        display: block;
+        text-shadow: 0 0 10px rgba(0,255,136,0.5);
+    }
+    
+    .stat-label {
+        color: #ffffff;
+        font-size: 1.1rem;
+        margin-top: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-buttons .legendary-btn {
+            width: 80%;
+            max-width: 300px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- 🌟 LEGENDARY HERO SECTION -->
+<section class="hero-section">
+    <div class="legendary-container">
+        <h1 class="hero-title">
+            🛤️ N3NEXTPATH 🛤️
+        </h1>
+        <p class="hero-subtitle">
+            More navigational than Swiss GPS with legendary path-finding mastery!
+        </p>
+        <p style="font-size: 1.2rem; color: #ffd700; margin-bottom: 20px;">
+            Built by <strong>RICKROLL187</strong> 🎸 with Swiss precision and code bro humor
+        </p>
+        
+        <div class="hero-buttons">
+            {% if not current_user %}
+                <a href="/register" class="legendary-btn legendary-btn-success" style="font-size: 1.2rem; padding: 15px 30px;">
+                    🚀 Start Your Legendary Journey
+                </a>
+                <a href="/login" class="legendary-btn legendary-btn-primary" style="font-size: 1.2rem; padding: 15px 30px;">
+                    🔐 Welcome Back, Code Bro
+                </a>
+            {% else %}
+                <a href="/dashboard" class="legendary-btn legendary-btn-success" style="font-size: 1.2rem; padding: 15px 30px;">
+                    📊 View Your Dashboard
+                </a>
+                <a href="/paths/create" class="legendary-btn legendary-btn-primary" style="font-size: 1.2rem; padding: 15px 30px;">
+                    ✨ Create New Path
+                </a>
+            {% endif %}
+            <a href="/docs" class="legendary-btn" style="font-size: 1.2rem; padding: 15px 30px;">
+                📚 Explore Documentation
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 🏆 LEGENDARY FEATURES SECTION -->
+<section class="legendary-container">
+    <h2 style="text-align: center; font-size: 3rem; margin: 60px 0 40px 0;">
+        🌟 Legendary Features 🌟
+    </h2>
+    
+    <div class="feature-grid">
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">🛤️</span>
+            <h3 class="feature-title">Epic Path Creation</h3>
+            <p>
+                Create legendary paths with Swiss precision navigation. 
+                Build complex routes, waypoints, and epic journeys that inspire fellow code bros!
+            </p>
+            <a href="/paths" class="legendary-btn legendary-btn-primary" style="margin-top: 15px;">
+                🚀 Explore Paths
+            </a>
+        </div>
+        
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">🎮</span>
+            <h3 class="feature-title">Legendary Gamification</h3>
+            <p>
+                Earn badges, unlock achievements, and climb the legendary leaderboards! 
+                Level up your code bro status with every path you create.
+            </p>
+            <a href="/achievements" class="legendary-btn legendary-btn-primary" style="margin-top: 15px;">
+                🏆 View Achievements
+            </a>
+        </div>
+        
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">⚡</span>
+            <h3 class="feature-title">Lightning Performance</h3>
+            <p>
+                Sub-100ms response times with real-time monitoring and Swiss precision optimization. 
+                Performance that makes RICKROLL187 proud!
+            </p>
+            <a href="/api/v1/monitoring/dashboard" class="legendary-btn legendary-btn-primary" style="margin-top: 15px;">
+                📊 View Performance
+            </a>
+        </div>
+        
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">👥</span>
+            <h3 class="feature-title">Code Bro Community</h3>
+            <p>
+                Connect with legendary developers worldwide! Share paths, collaborate on projects, 
+                and spread the code bro spirit with infinite humor.
+            </p>
+            <a href="/community" class="legendary-btn legendary-btn-primary" style="margin-top: 15px;">
+                💪 Join Community
+            </a>
+        </div>
+        
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">🔐</span>
+            <h3 class="feature-title">Swiss Vault Security</h3>
+            <p>
+                Bank-level security with JWT authentication, input validation, and legendary protection. 
+                Your data is safer than Swiss gold reserves!
+            </p>
+            <a href="/security" class="legendary-btn legendary-btn-primary" style="margin-top: 15px;">
+                🛡️ Security Details
+            </a>
+        </div>
+        
+        <div class="feature-card legendary-hover-glow">
+            <span class="feature-icon">💎</span>
+            <h3 class="feature-title">Premium Excellence</h3>
+            <p>
+                Unlock legendary premium features with RICKROLL187 personal support, 
+                unlimited paths, and enterprise-grade Swiss precision tools!
+            </p>
+            <a href="/premium" class="legendary-btn legendary-btn-rickroll187" style="margin-top: 15px;">
+                👑 Go Premium
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 📊 LEGENDARY STATS SECTION -->
+<section class="stats-section">
+    <div class="legendary-container">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">
+            🏆 Legendary Platform Stats 🏆
+        </h2>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number" id="paths-count">1,337</span>
+                <span class="stat-label">🛤️ Legendary Paths Created</span>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number" id="users-count">187</span>
+                <span class="stat-label">👥 Active Code Bros</span>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number" id="response-time-stat">42ms</span>
+                <span class="stat-label">⚡ Average Response Time</span>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">99.9%</span>
+                <span class="stat-label">🚀 Uptime (Swiss Precision)</span>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">😄 Jokes & Fun Delivered</span>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">🎸 RICKROLL187 Approved</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🎸 RICKROLL187 SIGNATURE SECTION -->
+<section class="legendary-container">
+    <div class="rickroll187-signature" style="margin: 60px 0; padding: 40px; font-size: 1.1rem;">
+        🎸 "Welcome to N3nextPath, the most legendary path platform in the universe! 
+        Built with Swiss precision, infinite code bro energy, and legendary humor that makes every journey epic. 
+        Whether you're creating your first path or your thousandth, remember: 
+        WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!" 🎸<br><br>
+        
+        <strong>- RICKROLL187, The Legendary Code Rock Star & Platform Creator</strong><br>
+        <em>Built at: 2025-08-04 17:23:05 UTC with maximum legendary energy!</em>
+    </div>
+</section>
+
+<!-- 🚀 CALL TO ACTION SECTION -->
+<section class="legendary-container" style="text-align: center; margin: 60px 0;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 30px;">
+        🚀 Ready to Start Your Legendary Adventure? 🚀
+    </h2>
+    
+    <p style="font-size: 1.3rem; margin-bottom: 40px; color: #ffffff;">
+        Join thousands of code bros creating legendary paths with Swiss precision!
+    </p>
+    
+    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        {% if not current_user %}
+            <a href="/register" class="legendary-btn legendary-btn-success legendary-hover-bounce" 
+               style="font-size: 1.3rem; padding: 20px 40px;">
+                🌟 Join the Legend Now
+            </a>
+            <a href="/demo" class="legendary-btn legendary-btn-primary legendary-hover-bounce" 
+               style="font-size: 1.3rem; padding: 20px 40px;">
+                🎮 Try Live Demo
+            </a>
+        {% else %}
+            <a href="/paths/create" class="legendary-btn legendary-btn-success legendary-hover-bounce" 
+               style="font-size: 1.3rem; padding: 20px 40px;">
+                ✨ Create Your First Path
+            </a>
+            <a href="/premium" class="legendary-btn legendary-btn-rickroll187 legendary-hover-bounce" 
+               style="font-size: 1.3rem; padding: 20px 40px;">
+                👑 Upgrade to Premium
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- 💬 LEGENDARY TESTIMONIALS SECTION -->
+<section class="legendary-container" style="margin: 80px 0;">
+    <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">
+        💬 What Legendary Code Bros Say 💬
+    </h2>
+    
+    <div class="feature-grid">
+        <div class="legendary-card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="/static/images/rickroll187_avatar.png" alt="RICKROLL187" 
+                     style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ffd700;">
+                <h4 style="color: #ffd700; margin: 10px 0;">RICKROLL187 🎸</h4>
+                <p style="color: #00ff88;">Platform Creator & Legendary Code Rock Star</p>
+            </div>
+            <p style="font-style: italic; color: #ffffff;">
+                "This platform represents everything I believe in: Swiss precision, infinite humor, 
+                and the legendary spirit of code bros helping each other create amazing things!"
+            </p>
+        </div>
+        
+        <div class="legendary-card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #667eea, #764ba2); 
+                           margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                    👨‍💻
+                </div>
+                <h4 style="color: #ffd700; margin: 10px 0;">SwissPrecisionDev 🎯</h4>
+                <p style="color: #00ff88;">Senior Path Architect</p>
+            </div>
+            <p style="font-style: italic; color: #ffffff;">
+                "The performance is incredible! Sub-100ms response times and the attention to detail 
+                rivals the finest Swiss craftsmanship. Plus, the jokes keep our team motivated!"
+            </p>
+        </div>
+        
+        <div class="legendary-card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #00ff88, #00dd77); 
+                           margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                    👩‍💻
+                </div>
+                <h4 style="color: #ffd700; margin: 10px 0;">CodeBroChampion 💪</h4>
+                <p style="color: #00ff88;">Lead Developer & Path Master</p>
+            </div>
+            <p style="font-style: italic; color: #ffffff;">
+                "Finally, a platform that combines serious functionality with legendary fun! 
+                The gamification system keeps our team engaged and the path creation tools are phenomenal."
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// 🎸 HOME PAGE LEGENDARY INTERACTIONS
+document.addEventListener('DOMContentLoaded', function() {
+    // 📊 Animate stats on scroll
+    const observerOptions = {
+        threshold: 0.5
+    };
+    
+    const statsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateStatNumbers();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+        statsObserver.observe(statsSection);
+    }
+    
+    // 🎮 Animate stat numbers
+    function animateStatNumbers() {
+        animateNumber('paths-count', 1337, 2000);
+        animateNumber('users-count', 187, 1500);
+        animateNumber('response-time-stat', 42, 1000, 'ms');
+    }
+    
+    function animateNumber(elementId, targetValue, duration, suffix = '') {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const startValue = 0;
+        const startTime = performance.now();
+        
+        function updateNumber(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const currentValue = Math.floor(startValue + (targetValue - startValue) * progress);
+            element.textContent = currentValue + suffix;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            }
+        }
+        
+        requestAnimationFrame(updateNumber);
+    }
+    
+    // 🎸 Add legendary particle effects to hero section
+    function createLegendaryParticles() {
+        const heroSection = document.querySelector('.hero-section');
+        if (!heroSection) return;
+        
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.textContent = ['✨', '🌟', '⭐', '💫', '🎸'][Math.floor(Math.random() * 5)];
+                particle.style.position = 'absolute';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '1';
+                particle.style.animation = 'legendary-float 4s ease-in-out infinite';
+                
+                heroSection.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentElement) {
+                        particle.remove();
+                    }
+                }, 4000);
+            }, i * 800);
+        }
+    }
+    
+    // Start particle effects
+    createLegendaryParticles();
+    setInterval(createLegendaryParticles, 10000); // Every 10 seconds
+});
+
+// 🌟 Add floating animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes legendary-float {
+        0%, 100% { 
+            transform: translateY(0px) rotate(0deg); 
+            opacity: 0.7;
+        }
+        50% { 
+            transform: translateY(-20px) rotate(180deg); 
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}
+
+<!--
+🏠 LEGENDARY INDEX TEMPLATE COMPLETE! 🏠
+More welcoming than Swiss hospitality with code bro home page mastery!
+Built by RICKROLL187 at 2025-08-04 17:23:05 UTC
+WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+-->

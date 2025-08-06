@@ -1,0 +1,368 @@
+<!-- File: frontend/public/offline.html -->
+<!-- N3EXTPATH HR Platform - Legendary Offline Page -->
+<!-- Built: 2025-08-05 16:53:15 UTC by RICKROLL187 -->
+<!-- WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN! -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>🎸 N3EXTPATH - You're Offline! 🎸</title>
+  <meta name="description" content="N3EXTPATH offline page - We'll sync when you're back online!" />
+  <meta name="theme-color" content="#667eea" />
+  
+  <!-- Legendary Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 20px;
+    }
+    
+    .offline-container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 60px 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .offline-icon {
+      font-size: 8rem;
+      margin-bottom: 30px;
+      animation: legendaryFloat 3s ease-in-out infinite;
+      display: block;
+    }
+    
+    .offline-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #FFD700, #FFA500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .offline-subtitle {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .offline-message {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      opacity: 0.8;
+    }
+    
+    .legendary-message {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #FFD700;
+      margin-bottom: 40px;
+      padding: 20px;
+      background: rgba(255, 215, 0, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .offline-features {
+      text-align: left;
+      margin-bottom: 40px;
+    }
+    
+    .offline-features h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .feature-icon {
+      margin-right: 12px;
+      font-size: 1.2rem;
+      color: #4CAF50;
+    }
+    
+    .retry-section {
+      margin-top: 40px;
+    }
+    
+    .retry-button {
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .retry-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+    }
+    
+    .home-button {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+    
+    .home-button:hover {
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .connection-status {
+      margin-top: 30px;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    
+    .connection-offline {
+      background: rgba(244, 67, 54, 0.2);
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      color: #ffcdd2;
+    }
+    
+    .connection-online {
+      background: rgba(76, 175, 80, 0.2);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      color: #c8e6c9;
+    }
+    
+    .timestamp {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .legendary-signature {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      font-style: italic;
+    }
+    
+    @keyframes legendaryFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @media (max-width: 768px) {
+      .offline-container {
+        padding: 40px 20px;
+      }
+      
+      .offline-icon {
+        font-size: 6rem;
+      }
+      
+      .offline-title {
+        font-size: 2.5rem;
+      }
+      
+      .offline-subtitle {
+        font-size: 1.3rem;
+      }
+      
+      .offline-message {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">🎸</div>
+    
+    <h1 class="offline-title">You're Offline!</h1>
+    <h2 class="offline-subtitle">But Don't Worry, We've Got You Covered</h2>
+    
+    <p class="offline-message">
+      N3EXTPATH is designed to work offline with Swiss precision! 
+      Your data is safely cached and will sync automatically when you're back online.
+    </p>
+    
+    <div class="legendary-message">
+      🎸 WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN! 🎸
+    </div>
+    
+    <div class="offline-features">
+      <h3>What You Can Still Do Offline:</h3>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-icon">✅</span>
+          View your cached dashboard and performance data
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✅</span>
+          Review your OKRs and goals
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✅</span>
+          Access previously viewed content
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✅</span>
+          Continue browsing with legendary precision
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✅</span>
+          Enjoy the legendary offline experience
+        </li>
+      </ul>
+    </div>
+    
+    <div class="retry-section">
+      <button class="retry-button" onclick="retryConnection()">
+        <span class="material-icons">refresh</span>
+        Try Again
+      </button>
+      
+      <button class="retry-button home-button" onclick="goHome()">
+        <span class="material-icons">home</span>
+        Go Home
+      </button>
+    </div>
+    
+    <div class="connection-status" id="connectionStatus">
+      <span class="material-icons">wifi_off</span>
+      You are currently offline
+    </div>
+    
+    <div class="timestamp" id="timestamp"></div>
+    
+    <div class="legendary-signature">
+      ✨ Built by RICKROLL187 with legendary offline capabilities ✨
+    </div>
+  </div>
+
+  <script>
+    // Update timestamp with Swiss precision
+    function updateTimestamp() {
+      const timestampElement = document.getElementById('timestamp');
+      const now = new Date();
+      timestampElement.textContent = `Last updated: ${now.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+      })}`;
+    }
+    
+    // Check connection status
+    function updateConnectionStatus() {
+      const statusElement = document.getElementById('connectionStatus');
+      
+      if (navigator.onLine) {
+        statusElement.className = 'connection-status connection-online';
+        statusElement.innerHTML = '<span class="material-icons">wifi</span> Connection restored! Syncing data...';
+        
+        // Auto-redirect when back online
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
+      } else {
+        statusElement.className = 'connection-status connection-offline';
+        statusElement.innerHTML = '<span class="material-icons">wifi_off</span> You are currently offline';
+      }
+    }
+    
+    // Retry connection
+    function retryConnection() {
+      updateConnectionStatus();
+      
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        // Show a friendly message
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="material-icons">hourglass_empty</span> Checking...';
+        
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          updateConnectionStatus();
+        }, 2000);
+      }
+    }
+    
+    // Go to home page
+    function goHome() {
+      window.location.href = '/';
+    }
+    
+    // Initialize
+    updateTimestamp();
+    updateConnectionStatus();
+    
+    // Update timestamp every second
+    setInterval(updateTimestamp, 1000);
+    
+    // Listen for connection changes
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+    
+    // Legendary console message
+    console.log(`
+🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸
+🎸                                                    🎸
+🎸        N3EXTPATH LEGENDARY OFFLINE PAGE            🎸
+🎸        You're offline but still legendary!         🎸
+🎸        Built by RICKROLL187 with Swiss precision   🎸
+🎸        WE ARE CODE BROS THE CREATE THE BEST        🎸
+🎸        AND CRACK JOKES TO HAVE FUN!                🎸
+🎸                                                    🎸
+🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸
+    `);
+  </script>
+</body>
+</html>

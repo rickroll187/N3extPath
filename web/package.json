@@ -1,0 +1,109 @@
+{
+  "name": "n3extpath-legendary-web",
+  "version": "2.0.0",
+  "description": "N3EXTPATH - Legendary HR Platform Web Application with Swiss Precision and Infinite Code Bro Energy",
+  "author": {
+    "name": "RICKROLL187",
+    "email": "letstalktech010@gmail.com",
+    "url": "https://n3extpath.com"
+  },
+  "license": "MIT",
+  "homepage": "https://n3extpath.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rickroll187/n3extpath-legendary-platform"
+  },
+  "keywords": [
+    "legendary",
+    "hr-platform",
+    "swiss-precision",
+    "code-bro-energy",
+    "performance-management",
+    "okr",
+    "teams",
+    "rickroll187",
+    "n3extpath"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 3000",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host --port 3001",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "legendary:dev": "echo '🎸 Starting Legendary Development Server with Code Bro Energy!' && npm run dev",
+    "legendary:build": "echo '⚙️ Building Legendary Production Bundle with Swiss Precision!' && npm run build",
+    "legendary:deploy": "echo '🚀 Deploying Legendary Platform to Production!' && npm run build && npm run preview",
+    "rickroll187:founder": "echo '👑 RICKROLL187 FOUNDER MODE ACTIVATED! WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!' && npm run dev"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "@reduxjs/toolkit": "^1.9.7",
+    "react-redux": "^8.1.3",
+    "@tanstack/react-query": "^4.36.1",
+    "axios": "^1.5.1",
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.4",
+    "recharts": "^2.8.0",
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.4.0",
+    "lucide-react": "^0.284.0",
+    "react-hook-form": "^7.46.2",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4",
+    "react-hot-toast": "^2.4.1",
+    "react-select": "^5.7.7",
+    "react-datepicker": "^4.21.0",
+    "react-dropzone": "^14.2.3",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-helmet-async": "^1.3.0",
+    "lodash": "^4.17.21",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "@types/lodash": "^4.14.199",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "@vitejs/plugin-react": "^4.1.0",
+    "vite": "^4.4.11",
+    "typescript": "^5.2.2",
+    "tailwindcss": "^3.3.5",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "eslint": "^8.51.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "vitest": "^0.34.6",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/user-event": "^14.5.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

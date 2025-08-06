@@ -1,0 +1,49 @@
+/* File: frontend/src/App.css */
+/**
+ * 🎨🎸 N3EXTPATH - MAIN APP STYLES 🎸🎨
+ * Professional CSS for main app component
+ * Built: 2025-08-05 15:45:11 UTC by RICKROLL187
+ * WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+ */
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.app-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 80px;
+  height: 80px;
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top: 6px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 2rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.app-loading h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.app-loading p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 0.9;
+}

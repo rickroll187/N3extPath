@@ -1,0 +1,45 @@
+# File: helm/n3extpath/Chart.yaml
+# N3EXTPATH HR Platform - Legendary Helm Chart
+# Built: 2025-08-05 16:33:22 UTC by RICKROLL187
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+apiVersion: v2
+name: n3extpath-hr-platform
+description: |
+  A legendary professional HR platform built by RICKROLL187.
+  Features performance management, OKR tracking, real-time communication,
+  AI-powered analytics, and Swiss precision with legendary fun!
+  
+  WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+type: application
+version: 1.0.0-LEGENDARY
+appVersion: "1.0.0"
+
+keywords:
+  - hr
+  - performance-management
+  - okr
+  - legendary
+  - rickroll187
+  - swiss-precision
+  - code-bros
+
+home: https://n3extpath.com
+sources:
+  - https://github.com/rickroll187/n3extpath-hr-platform
+
+maintainers:
+  - name: RICKROLL187
+    email: rickroll187@n3extpath.com
+    url: https://github.com/rickroll187
+
+icon: https://n3extpath.com/assets/legendary-icon.png
+
+annotations:
+  category: Business
+  licenses: MIT
+  built-by: "RICKROLL187 - Legendary Founder"
+  legendary-status: "maximum"
+  swiss-precision: "enabled"
+  code-bro-energy: "infinite"

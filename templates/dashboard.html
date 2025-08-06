@@ -1,0 +1,555 @@
+{% extends "base.html" %}
+
+{% block title %}N3nextPath - Legendary Dashboard | {{ current_user.username }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* 📊 DASHBOARD SPECIFIC STYLES */
+    .dashboard-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+        padding: 40px 0;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        text-align: center;
+    }
+    
+    .welcome-message {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #ffd700;
+    }
+    
+    .user-status {
+        font-size: 1.2rem;
+        color: #00ff88;
+        margin-bottom: 20px;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+    }
+    
+    .dashboard-card {
+        background: rgba(255,255,255,0.1);
+        border: 2px solid rgba(255,215,0,0.3);
+        border-radius: 15px;
+        padding: 25px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        border-color: #ffd700;
+        box-shadow: 0 15px 35px rgba(255,215,0,0.2);
+    }
+    
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .card-title {
+        font-size: 1.5rem;
+        color: #ffd700;
+        margin: 0;
+    }
+    
+    .card-icon {
+        font-size: 2rem;
+    }
+    
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .stat-box {
+        text-align: center;
+        padding: 15px;
+        background: rgba(0,255,136,0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(0,255,136,0.3);
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #00ff88;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: #ffffff;
+        margin-top: 5px;
+    }
+    
+    .recent-activity {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin: 5px 0;
+        background: rgba(0,0,0,0.2);
+        border-radius: 8px;
+        border-left: 3px solid #00ff88;
+    }
+    
+    .activity-icon {
+        font-size: 1.2rem;
+        margin-right: 10px;
+        width: 30px;
+        text-align: center;
+    }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-time {
+        font-size: 0.8rem;
+        color: #888;
+        margin-left: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- 📊 LEGENDARY DASHBOARD HEADER -->
+<div class="dashboard-header">
+    <div class="legendary-container">
+        <h1 class="welcome-message">
+            🎸 Welcome back, {{ current_user.username }}! 🎸
+        </h1>
+        <p class="user-status">
+            {% if current_user.rickroll187_approved %}
+                👑 RICKROLL187 VIP STATUS - Ultimate Legendary Access!
+            {% elif current_user.is_legendary %}
+                🏆 Legendary Code Bro - You Rock the Universe!
+            {% else %}
+                💪 Code Bro - Building Legendary Adventures!
+            {% endif %}
+        </p>
+        <p style="color: #ffffff; font-size: 1rem;">
+            Last login: <span id="last-login">Just now</span> | 
+            Account since: {{ current_user.created_at.strftime('%B %Y') if current_user.created_at else 'The beginning of time' }}
+        </p>
+    </div>
+</div>
+
+<!-- 🏆 LEGENDARY DASHBOARD GRID -->
+<div class="legendary-container">
+    <div class="dashboard-grid">
+        <!-- 📊 QUICK STATS CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">📊 Your Legendary Stats</h3>
+                <span class="card-icon">🏆</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-box">
+                    <span class="stat-value" id="user-level">{{ current_user.legendary_level or 1 }}</span>
+                    <span class="stat-label">Level</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="user-xp">{{ current_user.total_xp or 0 }}</span>
+                    <span class="stat-label">Total XP</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="paths-created">{{ user_stats.paths_created or 0 }}</span>
+                    <span class="stat-label">Paths Created</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="achievements-earned">{{ user_stats.achievements_earned or 0 }}</span>
+                    <span class="stat-label">Achievements</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/profile" class="legendary-btn legendary-btn-primary">
+                    👤 View Full Profile
+                </a>
+            </div>
+        </div>
+
+        <!-- 🛤️ RECENT PATHS CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">🛤️ Recent Paths</h3>
+                <span class="card-icon">🌟</span>
+            </div>
+            <div class="recent-activity">
+                {% if recent_paths %}
+                    {% for path in recent_paths %}
+                    <div class="activity-item">
+                        <span class="activity-icon">🛤️</span>
+                        <div class="activity-content">
+                            <strong>{{ path.name }}</strong>
+                            <br>
+                            <small>{{ path.description[:50] }}{% if path.description|length > 50 %}...{% endif %}</small>
+                        </div>
+                        <span class="activity-time">{{ path.created_at.strftime('%m/%d') if path.created_at else 'Recently' }}</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; padding: 20px; color: #888;">
+                        <p>🌟 No paths created yet!</p>
+                        <p>Start your legendary journey now!</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/paths/create" class="legendary-btn legendary-btn-success">
+                    ✨ Create New Path
+                </a>
+                <a href="/paths" class="legendary-btn legendary-btn-primary">
+                    🔍 Browse All Paths
+                </a>
+            </div>
+        </div>
+
+        <!-- 🏅 ACHIEVEMENTS CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">🏅 Latest Achievements</h3>
+                <span class="card-icon">🎮</span>
+            </div>
+            <div class="recent-activity">
+                {% if recent_achievements %}
+                    {% for achievement in recent_achievements %}
+                    <div class="activity-item">
+                        <span class="activity-icon">🏆</span>
+                        <div class="activity-content">
+                            <strong>{{ achievement.name }}</strong>
+                            <br>
+                            <small>{{ achievement.description }}</small>
+                        </div>
+                        <span class="activity-time">{{ achievement.unlocked_at.strftime('%m/%d') if achievement.unlocked_at else 'Recently' }}</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; padding: 20px; color: #888;">
+                        <p>🎮 No achievements unlocked yet!</p>
+                        <p>Start earning legendary badges!</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/achievements" class="legendary-btn legendary-btn-primary">
+                    🏆 View All Achievements
+                </a>
+            </div>
+        </div>
+
+        <!-- ⚡ PERFORMANCE CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">⚡ Platform Performance</h3>
+                <span class="card-icon">📊</span>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-box">
+                    <span class="stat-value" id="response-time-dashboard">--ms</span>
+                    <span class="stat-label">Response Time</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">99.9%</span>
+                    <span class="stat-label">Uptime</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">A++</span>
+                    <span class="stat-label">Performance</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">🎸</span>
+                    <span class="stat-label">RICKROLL187</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/api/v1/monitoring/dashboard-html" class="legendary-btn legendary-btn-primary">
+                    📈 Detailed Metrics
+                </a>
+            </div>
+        </div>
+
+        <!-- 💎 PREMIUM STATUS CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">💎 Premium Status</h3>
+                <span class="card-icon">👑</span>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                {% if current_user.rickroll187_approved %}
+                    <div class="legendary-status status-legendary">
+                        👑 RICKROLL187 VIP
+                    </div>
+                    <p style="margin: 15px 0; color: #ffd700;">
+                        Ultimate legendary access with personal RICKROLL187 support!
+                    </p>
+                {% elif current_user.role == 'legendary' %}
+                    <div class="legendary-status status-legendary">
+                        🏆 LEGENDARY MASTER
+                    </div>
+                    <p style="margin: 15px 0; color: #00ff88;">
+                        Unlimited paths and legendary features unlocked!
+                    </p>
+                {% elif current_user.role == 'code_bro' %}
+                    <div class="legendary-status status-active">
+                        💪 CODE BRO PRO
+                    </div>
+                    <p style="margin: 15px 0; color: #00ff88;">
+                        Premium features and priority support active!
+                    </p>
+                {% else %}
+                    <div class="legendary-status status-pending">
+                        🚀 FREE CODE BRO
+                    </div>
+                    <p style="margin: 15px 0; color: #ffffff;">
+                        Ready to unlock legendary premium features?
+                    </p>
+                {% endif %}
+            </div>
+            <div style="text-align: center;">
+                {% if not current_user.rickroll187_approved and current_user.role != 'legendary' %}
+                    <a href="/premium" class="legendary-btn legendary-btn-rickroll187">
+                        🚀 Upgrade to Legendary
+                    </a>
+                {% else %}
+                    <a href="/premium" class="legendary-btn legendary-btn-primary">
+                        💎 Manage Premium
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 🎭 LEGENDARY JOKE CARD -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">🎭 Daily Legendary Joke</h3>
+                <span class="card-icon">😄</span>
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <div class="legendary-joke" id="daily-joke">
+                    🎸 "Why is {{ current_user.username }}'s dashboard legendary? Because it was built by RICKROLL187 with Swiss precision and displays at exactly 17:31:46 UTC!" 🎸
+                </div>
+                <button class="legendary-btn legendary-btn-primary" onclick="loadNewJoke()" style="margin-top: 15px;">
+                    😄 Get New Joke
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🚀 QUICK ACTIONS SECTION -->
+<div class="legendary-container" style="margin: 40px 0;">
+    <h2 style="text-align: center; margin-bottom: 30px;">🚀 Quick Actions</h2>
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="/paths/create" class="legendary-btn legendary-btn-success legendary-hover-bounce">
+            ✨ Create Path
+        </a>
+        <a href="/paths" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+            🔍 Browse Paths
+        </a>
+        <a href="/achievements" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+            🏆 View Achievements
+        </a>
+        <a href="/leaderboard" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+            🏅 Leaderboard
+        </a>
+        <a href="/profile" class="legendary-btn legendary-btn-primary legendary-hover-bounce">
+            👤 Edit Profile
+        </a>
+        {% if current_user.role in ['admin', 'rickroll187'] %}
+            <a href="/admin" class="legendary-btn legendary-btn-rickroll187 legendary-hover-bounce">
+                👑 Admin Panel
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 🎸 RICKROLL187 PERSONAL MESSAGE -->
+<div class="legendary-container">
+    <div class="rickroll187-signature">
+        🎸 "Hey {{ current_user.username }}! Welcome to your legendary dashboard! 
+        {% if current_user.rickroll187_approved %}
+            As a VIP member, you have my personal guarantee of the most epic experience possible.
+        {% elif current_user.is_legendary %}
+            You've achieved legendary status - keep rocking the universe with your paths!
+        {% else %}
+            You're on the path to legendary greatness - keep creating and having fun!
+        {% endif %}
+        Remember: WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!" 🎸<br><br>
+        
+        <strong>- RICKROLL187, Your Legendary Code Bro & Platform Creator</strong><br>
+        <em>Dashboard loaded at: 2025-08-04 17:31:46 UTC with maximum legendary energy!</em>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// 📊 DASHBOARD LEGENDARY INTERACTIONS
+document.addEventListener('DOMContentLoaded', function() {
+    // Update response time
+    updateResponseTime();
+    
+    // Load user's last login time
+    updateLastLoginTime();
+    
+    // Animate stat numbers
+    animateDashboardStats();
+    
+    // Auto-refresh stats every 30 seconds
+    setInterval(refreshDashboardStats, 30000);
+});
+
+function updateResponseTime() {
+    const startTime = performance.now();
+    
+    // Simulate API call timing
+    setTimeout(() => {
+        const responseTime = Math.round(performance.now() - startTime);
+        const responseTimeEl = document.getElementById('response-time-dashboard');
+        if (responseTimeEl) {
+            responseTimeEl.textContent = responseTime + 'ms';
+            
+            // Color code based on performance
+            if (responseTime < 100) {
+                responseTimeEl.style.color = '#00ff88';
+            } else if (responseTime < 500) {
+                responseTimeEl.style.color = '#ffd700';
+            } else {
+                responseTimeEl.style.color = '#ff6b6b';
+            }
+        }
+    }, Math.random() * 50 + 10); // Simulate network delay
+}
+
+function updateLastLoginTime() {
+    const lastLoginEl = document.getElementById('last-login');
+    if (lastLoginEl && '{{ current_user.last_login }}') {
+        const lastLogin = new Date('{{ current_user.last_login.isoformat() if current_user.last_login else "" }}');
+        const now = new Date();
+        const diffMs = now - lastLogin;
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffHours / 24);
+        
+        if (diffDays > 0) {
+            lastLoginEl.textContent = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        } else if (diffHours > 0) {
+            lastLoginEl.textContent = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        } else {
+            lastLoginEl.textContent = 'Recently';
+        }
+    }
+}
+
+function animateDashboardStats() {
+    // Animate each stat with a slight delay
+    const stats = [
+        { id: 'user-level', target: {{ current_user.legendary_level or 1 }} },
+        { id: 'user-xp', target: {{ current_user.total_xp or 0 }} },
+        { id: 'paths-created', target: {{ user_stats.paths_created or 0 }} },
+        { id: 'achievements-earned', target: {{ user_stats.achievements_earned or 0 }} }
+    ];
+    
+    stats.forEach((stat, index) => {
+        setTimeout(() => {
+            animateNumber(stat.id, stat.target, 1500);
+        }, index * 200);
+    });
+}
+
+function animateNumber(elementId, targetValue, duration) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    const startValue = 0;
+    const startTime = performance.now();
+    
+    function updateNumber(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const currentValue = Math.floor(startValue + (targetValue - startValue) * progress);
+        element.textContent = currentValue;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        }
+    }
+    
+    requestAnimationFrame(updateNumber);
+}
+
+function refreshDashboardStats() {
+    // In a real app, this would make API calls to refresh stats
+    updateResponseTime();
+    
+    // Show a subtle notification
+    if (Math.random() < 0.3) { // 30% chance
+        window.legendary?.showNotification(
+            '📊 Dashboard stats refreshed with legendary precision!',
+            'info'
+        );
+    }
+}
+
+function loadNewJoke() {
+    const jokes = [
+        `🎸 "Why is ${document.querySelector('.welcome-message').textContent.match(/\w+/g)[2]}'s dashboard amazing? Because it updates in real-time with RICKROLL187 precision!" 🎸`,
+        "What's faster than Swiss lightning? This legendary dashboard loading speed! ⚡",
+        "Why don't code bros need coffee? Because legendary dashboards energize them! ☕💪",
+        "What do you call perfect user experience? A RICKROLL187 dashboard special! 🎸📊",
+        "Why is this dashboard responsive? Because it was built with Swiss precision and code bro responsiveness! 📱✨"
+    ];
+    
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    const jokeEl = document.getElementById('daily-joke');
+    if (jokeEl) {
+        // Fade out
+        jokeEl.style.opacity = '0';
+        
+        setTimeout(() => {
+            jokeEl.textContent = randomJoke;
+            jokeEl.style.opacity = '1';
+        }, 300);
+    }
+    
+    // Show notification
+    window.legendary?.showNotification(
+        '😄 New legendary joke loaded with Swiss humor precision!',
+        'joke'
+    );
+}
+
+// 🎸 Add legendary dashboard interactions
+document.querySelectorAll('.dashboard-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+    });
+});
+</script>
+{% endblock %}
+
+<!--
+📊 LEGENDARY DASHBOARD TEMPLATE COMPLETE! 📊
+More functional than Swiss engineering with code bro dashboard mastery!
+Built by RICKROLL187 at 2025-08-04 17:31:46 UTC
+WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+-->

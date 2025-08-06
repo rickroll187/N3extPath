@@ -1,0 +1,189 @@
+# File: docker-compose.dev.yml
+# 🎸🎸🎸 N3EXTPATH - LEGENDARY DEVELOPMENT DOCKER COMPOSE 🎸🎸🎸
+# Development-focused multi-container setup with Swiss precision
+# Built: 2025-08-06 00:35:01 UTC by RICKROLL187
+# Email: letstalktech010@gmail.com
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+version: '3.8'
+
+# Extend the base docker-compose.yml
+include:
+  - docker-compose.yml
+
+services:
+  # Override backend for development
+  legendary-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: base  # Development target
+    environment:
+      # Development-specific settings
+      DEBUG: "true"
+      ENVIRONMENT: "development"
+      
+      # Enable development features
+      ENABLE_API_DOCS: "true"
+      ENABLE_SWAGGER_UI: "true"
+      ENABLE_REDOC: "true"
+      DEBUG_SQL_QUERIES: "true"
+      
+      # Relaxed security for development
+      SECRET_KEY: "dev-secret-key-not-for-production"
+      CORS_ALLOW_ALL_ORIGINS: "true"
+      
+      # Development email (use console backend)
+      SMTP_HOST: ""
+      ENABLE_EMAIL_NOTIFICATIONS: "false"
+      
+      # Faster refresh for development
+      ACCESS_TOKEN_EXPIRE_MINUTES: "1440"  # 24 hours
+      
+    volumes:
+      # Mount source code for hot reload
+      - ./backend:/app:cached
+      - legendary-uploads:/app/uploads
+      - legendary-logs:/app/logs
+    command: >
+      sh -c "
+        echo '🎸 Starting N3EXTPATH in LEGENDARY DEVELOPMENT MODE! 🎸' &&
+        echo 'WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!' &&
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+      "
+    ports:
+      - "8000:8000"
+      - "8001:8001"  # Additional dev port
+    labels:
+      - "legendary.mode=development"
+      - "legendary.hot_reload=enabled"
+
+  # Development database with additional tools
+  legendary-postgres:
+    ports:
+      - "5432:5432"  # Expose for external access
+    environment:
+      POSTGRES_DB: n3extpath_legendary
+      POSTGRES_USER: n3extpath_user
+      POSTGRES_PASSWORD: dev_password_123
+    volumes:
+      - legendary-postgres-data:/var/lib/postgresql/data
+      - ./database/dev_init.sql:/docker-entrypoint-initdb.d/dev_init.sql:ro
+
+  # pgAdmin for database management
+  legendary-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: n3extpath-legendary-pgadmin
+    restart: unless-stopped
+    depends_on:
+      - legendary-postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "letstalktech010@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "LegendaryPgAdmin2025!"
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=database_admin"
+      - "legendary.tool=pgadmin"
+
+  # Redis Commander for cache management
+  legendary-redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: n3extpath-legendary-redis-commander
+    restart: unless-stopped
+    depends_on:
+      - legendary-redis
+    environment:
+      REDIS_HOSTS: "legendary-redis:legendary-redis:6379"
+      HTTP_USER: "rickroll187"
+      HTTP_PASSWORD: "LegendaryRedis2025!"
+    ports:
+      - "8081:8081"
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=cache_admin"
+      - "legendary.tool=redis_commander"
+
+  # Mailhog for email testing
+  legendary-mailhog:
+    image: mailhog/mailhog:latest
+    container_name: n3extpath-legendary-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web interface
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=email_testing"
+      - "legendary.tool=mailhog"
+
+  # Jupyter for legendary data analysis
+  legendary-jupyter:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: n3extpath-legendary-jupyter
+    restart: unless-stopped
+    depends_on:
+      - legendary-postgres
+      - legendary-redis
+    environment:
+      DATABASE_URL: "postgresql://n3extpath_user:dev_password_123@legendary-postgres:5432/n3extpath_legendary"
+      REDIS_URL: "redis://legendary-redis:6379/0"
+    command: >
+      sh -c "
+        pip install jupyter jupyterlab &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+        --NotebookApp.token='legendary_jupyter_2025'
+      "
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend:/app:cached
+      - ./notebooks:/app/notebooks
+    networks:
+      - legendary-network
+    labels:
+      - "legendary.service=data_analysis"
+      - "legendary.tool=jupyter"
+
+# Additional development volumes
+volumes:
+  legendary-dev-data:
+    driver: local
+    name: n3extpath-dev-data
+
+# =====================================
+# 🎸 LEGENDARY DEV COMPLETION MESSAGE 🎸
+# =====================================
+# 🎸🎸🎸 N3EXTPATH LEGENDARY DEVELOPMENT SETUP 🎸🎸🎸
+# 
+# This legendary development setup includes:
+# ✅ Hot-reloading FastAPI backend
+# ✅ pgAdmin for database management
+# ✅ Redis Commander for cache management
+# ✅ Mailhog for email testing
+# ✅ Jupyter Lab for data analysis
+# ✅ Development-friendly configurations
+#
+# To start development environment:
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Access points:
+# 🎸 Backend API: http://localhost:8000
+# 📊 API Docs: http://localhost:8000/api/v1/docs
+# 🗄️ pgAdmin: http://localhost:5050
+# 🔄 Redis Commander: http://localhost:8081
+# 📧 Mailhog: http://localhost:8025
+# 📓 Jupyter Lab: http://localhost:8888
+#
+# Built with Swiss precision by RICKROLL187!
+# Email: letstalktech010@gmail.com
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!

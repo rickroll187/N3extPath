@@ -1,0 +1,485 @@
+/* File: web/src/index.css */
+/*
+ * 🌐🎸 N3EXTPATH - LEGENDARY GLOBAL STYLES 🎸🌐
+ * Professional web styling with Swiss precision
+ * Built: 2025-08-06 13:16:05 UTC by RICKROLL187
+ * Email: letstalktech010@gmail.com
+ * WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+ */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* =====================================
+   👑 LEGENDARY CSS VARIABLES 👑
+   ===================================== */
+
+:root {
+  /* 👑 RICKROLL187 Founder Colors */
+  --legendary-founder: #FFD700;
+  --legendary-founder-dark: #DAA520;
+  --legendary-founder-light: #FFF8DC;
+  --legendary-founder-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #DAA520 100%);
+  
+  /* 🎸 Legendary Brand Colors */
+  --legendary-primary: #1a1a1a;
+  --legendary-secondary: #2d2d2d;
+  --legendary-accent: #4a9eff;
+  --legendary-success: #10b981;
+  --legendary-warning: #f59e0b;
+  --legendary-error: #ef4444;
+  --legendary-info: #3b82f6;
+  
+  /* ⚙️ Swiss Precision Colors */
+  --swiss-precision: #dc2626;
+  --swiss-precision-light: #fee2e2;
+  --swiss-precision-dark: #991b1b;
+  --swiss-precision-gradient: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  
+  /* 🎸 Code Bro Energy Colors */
+  --code-bro-energy: #8b5cf6;
+  --code-bro-energy-light: #ede9fe;
+  --code-bro-energy-dark: #5b21b6;
+  --code-bro-energy-gradient: linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%);
+  
+  /* 🌈 Background System */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-legendary: var(--legendary-primary);
+  --bg-glass: rgba(255, 255, 255, 0.95);
+  --bg-glass-dark: rgba(26, 26, 26, 0.95);
+  
+  /* 📝 Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-legendary: var(--legendary-founder);
+  --text-inverse: #ffffff;
+  
+  /* 🔳 Border System */
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+  --border-legendary: var(--legendary-founder);
+  --border-swiss: var(--swiss-precision);
+  --border-code-bro: var(--code-bro-energy);
+  
+  /* 🎨 Shadow System */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-legendary: 0 25px 50px -12px rgba(255, 215, 0, 0.25);
+  --shadow-swiss: 0 25px 50px -12px rgba(220, 38, 38, 0.25);
+  --shadow-code-bro: 0 25px 50px -12px rgba(139, 92, 246, 0.25);
+  
+  /* 📖 Typography */
+  --font-legendary: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-code-bro: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  --font-display: var(--font-legendary);
+  
+  /* 🎭 Animation System */
+  --transition-legendary: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-swift: all 0.15s ease-out;
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-smooth: all 0.2s ease-in-out;
+  
+  /* 📏 Spacing System */
+  --spacing-legendary: 2rem;
+  --spacing-swiss: 1.5rem;
+  --spacing-code-bro: 1rem;
+  
+  /* 🔵 Border Radius System */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-legendary: 1.5rem;
+  
+  /* 📱 Responsive Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* =====================================
+   🌙 DARK MODE VARIABLES 🌙
+   ===================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-glass: rgba(15, 23, 42, 0.95);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --border-primary: #334155;
+    --border-secondary: #475569;
+  }
+}
+
+/* =====================================
+   🎯 BASE STYLES 🎯
+   ===================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-legendary);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* =====================================
+   🎸 LEGENDARY APP STYLES 🎸
+   ===================================== */
+
+.legendary-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.legendary-main-content {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+
+.legendary-content {
+  flex: 1;
+  min-height: calc(100vh - 4rem);
+  transition: var(--transition-legendary);
+  padding: 0;
+}
+
+.legendary-content.sidebar-open {
+  margin-left: 280px;
+}
+
+@media (max-width: 1024px) {
+  .legendary-content.sidebar-open {
+    margin-left: 0;
+  }
+}
+
+/* =====================================
+   ⚡ LOADING STATES ⚡
+   ===================================== */
+
+.legendary-app-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--legendary-primary) 0%, var(--legendary-secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  color: white;
+}
+
+.loading-content .legendary-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--legendary-founder);
+  border-radius: 50%;
+  animation: legendary-spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+.loading-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* =====================================
+   🚨 ERROR BOUNDARY STYLES 🚨
+   ===================================== */
+
+.legendary-error-boundary {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 2rem;
+}
+
+.error-content {
+  background: white;
+  border-radius: var(--radius-legendary);
+  padding: 3rem;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+}
+
+.error-content h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--legendary-primary);
+  margin-bottom: 1rem;
+}
+
+.error-content p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.error-details {
+  text-align: left;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-primary);
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.error-details pre {
+  font-family: var(--font-code-bro);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0.5rem 0;
+}
+
+.legendary-retry-button {
+  background: var(--legendary-founder-gradient);
+  color: var(--legendary-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-legendary);
+  box-shadow: var(--shadow-legendary);
+}
+
+.legendary-retry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.error-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-primary);
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* =====================================
+   🎨 LEGENDARY ANIMATIONS 🎨
+   ===================================== */
+
+@keyframes legendary-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes legendary-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes legendary-bounce {
+  0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+  40%, 43% { transform: translateY(-8px); }
+  70% { transform: translateY(-4px); }
+  90% { transform: translateY(-2px); }
+}
+
+@keyframes legendary-slide-in {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes legendary-slide-up {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes legendary-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes legendary-zoom-in {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* =====================================
+   🎸 UTILITY CLASSES 🎸
+   ===================================== */
+
+.legendary-gradient {
+  background: var(--legendary-founder-gradient);
+}
+
+.swiss-gradient {
+  background: var(--swiss-precision-gradient);
+}
+
+.code-bro-gradient {
+  background: var(--code-bro-energy-gradient);
+}
+
+.legendary-text {
+  background: var(--legendary-founder-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.legendary-shadow {
+  box-shadow: var(--shadow-legendary);
+}
+
+.swiss-shadow {
+  box-shadow: var(--shadow-swiss);
+}
+
+.code-bro-shadow {
+  box-shadow: var(--shadow-code-bro);
+}
+
+.legendary-border {
+  border: 2px solid var(--legendary-founder);
+}
+
+.swiss-border {
+  border: 2px solid var(--swiss-precision);
+}
+
+.code-bro-border {
+  border: 2px solid var(--code-bro-energy);
+}
+
+/* Animation utilities */
+.animate-legendary-pulse {
+  animation: legendary-pulse 2s infinite;
+}
+
+.animate-legendary-bounce {
+  animation: legendary-bounce 1s infinite;
+}
+
+.animate-legendary-slide-in {
+  animation: legendary-slide-in 0.5s ease-out;
+}
+
+.animate-legendary-fade-in {
+  animation: legendary-fade-in 0.3s ease-out;
+}
+
+.animate-legendary-zoom-in {
+  animation: legendary-zoom-in 0.4s ease-out;
+}
+
+/* =====================================
+   📱 RESPONSIVE DESIGN 📱
+   ===================================== */
+
+@media (max-width: 768px) {
+  .legendary-content {
+    padding: 1rem;
+  }
+  
+  .error-content {
+    padding: 2rem;
+    margin: 1rem;
+  }
+  
+  .error-content h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* =====================================
+   🎯 ACCESSIBILITY 🎯
+   ===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--legendary-founder);
+  outline-offset: 2px;
+}
+
+/* =====================================
+   🎸 LEGENDARY COMPLETION MESSAGE 🎸
+   ===================================== */
+
+/*
+ * 🎸🎸🎸 LEGENDARY GLOBAL STYLES COMPLETE! 🎸🎸🎸
+ * Built with Swiss precision by RICKROLL187!
+ * Email: letstalktech010@gmail.com
+ * WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+ * Global styles completed at: 2025-08-06 13:16:05 UTC
+ * 🌐 Web styling: SWISS PRECISION
+ * 👑 RICKROLL187 founder styles: LEGENDARY
+ * 🎨 Animation system: MAXIMUM SMOOTHNESS
+ * 🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸
+ */

@@ -1,0 +1,135 @@
+# 🚫🎸 N3EXTPATH - LEGENDARY GITIGNORE 🎸🚫
+# More exclusive than Swiss VIP clubs with legendary file filtering!
+# CODE BROS CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+# Built by legendary code bros RICKROLL187 🎸
+
+# === LEGENDARY PYTHON EXCLUSIONS ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# === LEGENDARY ENVIRONMENT & CONFIG ===
+.env
+.env.local
+.env.production
+.env.staging
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+legendary_env/
+
+# === LEGENDARY DATABASE ===
+*.db
+*.sqlite
+*.sqlite3
+n3extpath_legendary.db
+database/
+migrations/versions/
+
+# === LEGENDARY IDE & EDITORS ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === LEGENDARY LOGS ===
+logs/
+*.log
+log/
+.log
+
+# === LEGENDARY TESTING ===
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+.pytest_cache
+coverage.xml
+*.cover
+.hypothesis/
+
+# === LEGENDARY BUILD & DEPLOYMENT ===
+Dockerfile.prod
+docker-compose.override.yml
+.docker/
+k8s/secrets/
+helm/values-prod.yaml
+
+# === LEGENDARY UPLOADS & MEDIA ===
+uploads/
+media/
+static/uploaded/
+tmp/
+temp/
+
+# === LEGENDARY DOCUMENTATION ===
+docs/_build/
+site/
+
+# === LEGENDARY SECURITY ===
+*.pem
+*.key
+*.crt
+secrets/
+.secrets/
+
+# === LEGENDARY MONITORING ===
+.nyc_output
+monitoring/grafana/data/
+prometheus/data/
+
+# === LEGENDARY NODE.JS (for frontend) ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+
+# === LEGENDARY CACHE ===
+.cache/
+*.pid
+*.seed
+*.pid.lock
+
+# === LEGENDARY SYSTEM FILES ===
+*.bak
+*.tmp
+.sass-cache/
+
+# === CODE BRO EXCLUSIONS ===
+# Never commit these legendary secrets!
+rickroll187_private_keys/
+legendary_admin_passwords.txt
+code_bro_secrets/
+
+# === LEGENDARY COMMENT ===
+# Remember: What happens in the git repo, stays in the git repo! 🎸
+# RICKROLL187's legendary code is protected by Swiss-level security! 🏔️🔒

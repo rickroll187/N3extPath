@@ -1,0 +1,451 @@
+# File: monitoring/prometheus.yml
+# 📊🎸 N3EXTPATH - LEGENDARY PROMETHEUS MONITORING 🎸📊
+# Professional monitoring configuration with Swiss precision
+# Built: 2025-08-05 21:43:38 UTC by RICKROLL187
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+# =====================================
+# 🎸 LEGENDARY PROMETHEUS CONFIGURATION 🎸
+# =====================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+  
+  # Legendary labels for all metrics
+  external_labels:
+    legendary_founder: 'rickroll187'
+    swiss_precision: 'enabled'
+    code_bro_energy: 'maximum'
+    monitor_name: 'n3extpath-legendary-monitor'
+    environment: 'production'
+
+# =====================================
+# 🚨 ALERTING CONFIGURATION 🚨
+# =====================================
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+      scheme: http
+      timeout: 10s
+      api_version: v2
+
+# =====================================
+# 📋 RULE FILES 📋
+# =====================================
+
+rule_files:
+  - "rules/legendary_alerts.yml"
+  - "rules/swiss_precision_rules.yml"
+  - "rules/code_bro_energy_rules.yml"
+  - "rules/performance_rules.yml"
+  - "rules/system_health_rules.yml"
+
+# =====================================
+# 🎯 SCRAPE CONFIGURATIONS 🎯
+# =====================================
+
+scrape_configs:
+  
+  # ===================
+  # 🎸 LEGENDARY SERVICES
+  # ===================
+  
+  - job_name: 'n3extpath-backend-legendary'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    metrics_path: '/metrics'
+    scheme: http
+    static_configs:
+      - targets:
+        - 'backend:8000'
+        - 'backend-replica-1:8000'
+        - 'backend-replica-2:8000'
+        labels:
+          service: 'backend'
+          legendary: 'true'
+          swiss_precision: 'enabled'
+    
+    # Special configuration for legendary metrics
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'legendary_.*'
+        target_label: 'metric_type'
+        replacement: 'legendary'
+      
+      - source_labels: [__name__]
+        regex: 'swiss_precision_.*'
+        target_label: 'precision_type'
+        replacement: 'swiss'
+      
+      - source_labels: [__name__]
+        regex: 'code_bro_.*'
+        target_label: 'energy_type'
+        replacement: 'code_bro'
+
+  - job_name: 'n3extpath-frontend-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: '/api/metrics'
+    scheme: https
+    static_configs:
+      - targets:
+        - 'frontend:3000'
+        - 'frontend-replica-1:3000'
+        - 'frontend-replica-2:3000'
+        labels:
+          service: 'frontend'
+          legendary: 'true'
+
+  - job_name: 'n3extpath-mobile-analytics'
+    scrape_interval: 60s
+    scrape_timeout: 15s
+    metrics_path: '/mobile/metrics'
+    scheme: http
+    static_configs:
+      - targets:
+        - 'mobile-analytics:9090'
+        labels:
+          service: 'mobile'
+          platform: 'react-native'
+          legendary: 'true'
+
+  # ===================
+  # 🗄️ DATABASE MONITORING
+  # ===================
+  
+  - job_name: 'postgresql-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'postgres-exporter:9187'
+        labels:
+          database: 'postgresql'
+          legendary_data: 'true'
+          swiss_precision_queries: 'enabled'
+    
+    # Database-specific relabeling
+    metric_relabel_configs:
+      - source_labels: [datname]
+        regex: 'n3extpath_hr'
+        target_label: 'legendary_database'
+        replacement: 'primary'
+
+  - job_name: 'redis-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'redis-exporter:9121'
+        labels:
+          cache: 'redis'
+          legendary_cache: 'true'
+          code_bro_sessions: 'enabled'
+
+  # ===================
+  # ☸️ KUBERNETES MONITORING
+  # ===================
+  
+  - job_name: 'kubernetes-legendary-nodes'
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    
+    kubernetes_sd_configs:
+    - role: node
+    
+    relabel_configs:
+    - action: labelmap
+      regex: __meta_kubernetes_node_label_(.+)
+    - target_label: __address__
+      replacement: kubernetes.default.svc:443
+    - source_labels: [__meta_kubernetes_node_name]
+      regex: (.+)
+      target_label: __metrics_path__
+      replacement: /api/v1/nodes/${1}/proxy/metrics
+    
+    # Add legendary labels to Kubernetes metrics
+    - target_label: 'legendary_cluster'
+      replacement: 'n3extpath-production'
+    - target_label: 'swiss_precision_k8s'
+      replacement: 'enabled'
+
+  - job_name: 'kubernetes-legendary-pods'
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    
+    kubernetes_sd_configs:
+    - role: pod
+    
+    relabel_configs:
+    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+      action: keep
+      regex: true
+    - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+      action: replace
+      target_label: __metrics_path__
+      regex: (.+)
+    - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+      action: replace
+      regex: ([^:]+)(?::\d+)?;(\d+)
+      replacement: $1:$2
+      target_label: __address__
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(.+)
+    - source_labels: [__meta_kubernetes_namespace]
+      action: replace
+      target_label: kubernetes_namespace
+    - source_labels: [__meta_kubernetes_pod_name]
+      action: replace
+      target_label: kubernetes_pod_name
+    
+    # Filter for N3EXTPATH pods only
+    - source_labels: [__meta_kubernetes_namespace]
+      action: keep
+      regex: 'n3extpath-legendary'
+
+  # ===================
+  # 🔍 SYSTEM MONITORING
+  # ===================
+  
+  - job_name: 'node-exporter-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'node-exporter:9100'
+        labels:
+          service: 'node-exporter'
+          legendary_hardware: 'true'
+          swiss_precision_metrics: 'enabled'
+
+  - job_name: 'nginx-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'nginx-exporter:9113'
+        labels:
+          service: 'nginx'
+          load_balancer: 'legendary'
+
+  - job_name: 'cadvisor-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'cadvisor:8080'
+        labels:
+          service: 'cadvisor'
+          container_monitoring: 'legendary'
+
+  # ===================
+  # 🎸 RICKROLL187 EXCLUSIVE MONITORING
+  # ===================
+  
+  - job_name: 'legendary-founder-metrics'
+    scrape_interval: 5s  # Ultra-frequent monitoring for founder
+    scrape_timeout: 3s
+    metrics_path: '/legendary/founder-metrics'
+    scheme: https
+    static_configs:
+      - targets:
+        - 'backend:8000'
+        labels:
+          service: 'legendary-founder'
+          user: 'rickroll187'
+          privilege_level: 'maximum'
+          swiss_precision: 'ultimate'
+          code_bro_energy: 'infinite'
+    
+    # Special handling for RICKROLL187 metrics
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'rickroll187_.*'
+        target_label: 'founder_metric'
+        replacement: 'true'
+
+  - job_name: 'swiss-precision-monitor'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    metrics_path: '/legendary/swiss-precision'
+    scheme: http
+    static_configs:
+      - targets:
+        - 'backend:8000'
+        labels:
+          service: 'swiss-precision'
+          quality_monitor: 'active'
+          precision_level: 'maximum'
+
+  - job_name: 'code-bro-energy-tracker'
+    scrape_interval: 20s
+    scrape_timeout: 8s
+    metrics_path: '/legendary/code-bro-energy'
+    scheme: http
+    static_configs:
+      - targets:
+        - 'backend:8000'
+        labels:
+          service: 'code-bro-energy'
+          collaboration_tracker: 'active'
+          energy_level: 'maximum'
+
+  # ===================
+  # 📊 EXTERNAL SERVICES
+  # ===================
+  
+  - job_name: 'blackbox-legendary'
+    scrape_interval: 60s
+    scrape_timeout: 20s
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://n3extpath.com
+        - https://api.n3extpath.com/health
+        - https://app.n3extpath.com
+        labels:
+          service: 'blackbox'
+          monitoring_type: 'external'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: 'alertmanager-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'alertmanager:9093'
+        labels:
+          service: 'alertmanager'
+          legendary_alerts: 'enabled'
+
+  - job_name: 'prometheus-legendary'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+        - 'localhost:9090'
+        labels:
+          service: 'prometheus'
+          self_monitoring: 'legendary'
+
+# =====================================
+# 🎸 LEGENDARY METRIC TRANSFORMATIONS 🎸
+# =====================================
+
+# Global metric relabeling for legendary features
+metric_relabel_configs:
+  # Add legendary metadata to all metrics
+  - target_label: 'legendary_platform'
+    replacement: 'n3extpath'
+  
+  - target_label: 'built_by'
+    replacement: 'rickroll187'
+  
+  - target_label: 'code_bro_motto'
+    replacement: 'we_are_code_bros_the_create_the_best_and_crack_jokes_to_have_fun'
+
+# =====================================
+# 🔧 ADVANCED CONFIGURATION 🔧
+# =====================================
+
+# Storage configuration
+storage:
+  tsdb:
+    retention.time: 90d
+    retention.size: 100GB
+    wal-compression: true
+    
+# Remote write for legendary metrics backup
+remote_write:
+  - url: "https://legendary-metrics-backup.n3extpath.com/api/v1/write"
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'legendary_.*|swiss_precision_.*|code_bro_.*|rickroll187_.*'
+        action: keep
+    
+    queue_config:
+      capacity: 10000
+      max_shards: 50
+      min_shards: 1
+      max_samples_per_send: 2000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 100ms
+
+# Query logging for legendary debugging
+query_log_file: "/prometheus/legendary_queries.log"
+
+# =====================================
+# 🎸 LEGENDARY FEATURE FLAGS 🎸
+# =====================================
+
+# Enable advanced features for legendary monitoring
+enable_lifecycle: true
+enable_admin_api: true
+log.level: info
+log.format: json
+
+# Web configuration for legendary UI
+web:
+  listen-address: "0.0.0.0:9090"
+  max-connections: 512
+  read-timeout: 30s
+  route-prefix: "/"
+  external-url: "https://monitoring.n3extpath.com"
+  
+  # Legendary console templates
+  console.templates: "/etc/prometheus/consoles"
+  console.libraries: "/etc/prometheus/console_libraries"
+
+# =====================================
+# 🎸 LEGENDARY COMMENTS & METADATA 🎸
+# =====================================
+
+# Configuration built with Swiss precision by RICKROLL187
+# Monitoring system designed for legendary performance
+# Swiss precision: Sub-second response time monitoring
+# Code bro energy: Team collaboration metrics tracking
+# Legendary features: RICKROLL187 exclusive monitoring
+
+# Key Metrics Monitored:
+# - HTTP request duration and rate
+# - Database query performance
+# - Cache hit ratios and performance
+# - System resource utilization
+# - Container and Kubernetes metrics
+# - Swiss precision quality scores
+# - Code bro energy levels
+# - Legendary user activities
+# - RICKROLL187 founder metrics
+
+# Alert Thresholds (Legendary Standards):
+# - Response time: < 1000ms (Swiss precision)
+# - Error rate: < 0.1% (Legendary quality)
+# - Uptime: > 99.9% (Professional excellence)
+# - Swiss precision score: > 95%
+# - Code bro energy: > 80%
+# - RICKROLL187 satisfaction: 100%
+
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+# Built: 2025-08-05 21:43:38 UTC
+# Version: 1.0.0-legendary
+# Founder: RICKROLL187
+# Precision Level: Maximum Swiss
+# Energy Level: Infinite Code Bro

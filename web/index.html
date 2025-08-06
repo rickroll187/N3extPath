@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Legendary Meta Tags -->
+  <title>N3EXTPATH | Legendary HR Platform with Swiss Precision</title>
+  <meta name="description" content="N3EXTPATH - The legendary HR performance management platform built with Swiss precision and infinite code bro energy by RICKROLL187" />
+  <meta name="keywords" content="HR platform, performance management, OKR, teams, legendary, swiss precision, code bro energy, RICKROLL187" />
+  <meta name="author" content="RICKROLL187" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="N3EXTPATH | Legendary HR Platform" />
+  <meta property="og:description" content="Experience legendary performance management with Swiss precision and code bro energy" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://n3extpath.com" />
+  <meta property="og:image" content="/assets/images/og-image.png" />
+  <meta property="og:site_name" content="N3EXTPATH" />
+  
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="N3EXTPATH | Legendary HR Platform" />
+  <meta name="twitter:description" content="Experience legendary performance management with Swiss precision" />
+  <meta name="twitter:image" content="/assets/images/twitter-image.png" />
+  <meta name="twitter:creator" content="@rickroll187" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1a1a1a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="N3EXTPATH" />
+  
+  <!-- Legendary Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Legendary CSS Variables -->
+  <style>
+    :root {
+      /* 👑 RICKROLL187 Founder Colors */
+      --legendary-founder: #FFD700;
+      --legendary-founder-dark: #DAA520;
+      --legendary-founder-light: #FFF8DC;
+      
+      /* 🎸 Legendary Colors */
+      --legendary-primary: #1a1a1a;
+      --legendary-secondary: #2d2d2d;
+      --legendary-accent: #4a9eff;
+      --legendary-success: #10b981;
+      --legendary-warning: #f59e0b;
+      --legendary-error: #ef4444;
+      
+      /* ⚙️ Swiss Precision Colors */
+      --swiss-precision: #dc2626;
+      --swiss-precision-light: #fee2e2;
+      --swiss-precision-dark: #991b1b;
+      
+      /* 🎸 Code Bro Energy Colors */
+      --code-bro-energy: #8b5cf6;
+      --code-bro-energy-light: #ede9fe;
+      --code-bro-energy-dark: #5b21b6;
+      
+      /* Base Colors */
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #64748b;
+      --border-primary: #e2e8f0;
+      --border-secondary: #cbd5e1;
+      
+      /* Legendary Typography */
+      --font-legendary: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-code-bro: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+      
+      /* Legendary Animations */
+      --transition-legendary: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-swift: all 0.15s ease-out;
+      --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: #94a3b8;
+        --border-primary: #334155;
+        --border-secondary: #475569;
+      }
+    }
+    
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-legendary);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Loading screen styles */
+    .legendary-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--legendary-primary) 0%, var(--legendary-secondary) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: white;
+    }
+    
+    .legendary-loading h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, var(--legendary-founder), var(--code-bro-energy));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .legendary-loading p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .legendary-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-left: 4px solid var(--legendary-founder);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Legendary Loading Screen -->
+  <div id="legendary-loading" class="legendary-loading">
+    <h1>N3EXTPATH</h1>
+    <p>Loading legendary platform with Swiss precision...<br>Built by RICKROLL187 with infinite code bro energy!</p>
+    <div class="legendary-spinner"></div>
+  </div>
+  
+  <!-- Main App Container -->
+  <div id="root"></div>
+  
+  <!-- Legendary JavaScript -->
+  <script>
+    console.log('🎸🎸🎸 N3EXTPATH LEGENDARY WEB PLATFORM 🎸🎸🎸');
+    console.log('Built: 2025-08-06 12:39:48 UTC by RICKROLL187');
+    console.log('Email: letstalktech010@gmail.com');
+    console.log('WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!');
+    console.log('🌐 Web platform: SWISS PRECISION');
+    console.log('👑 RICKROLL187 founder features: LEGENDARY');
+    console.log('⚙️ Loading legendary components...');
+  </script>
+  
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+</html>

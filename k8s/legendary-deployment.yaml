@@ -1,0 +1,473 @@
+# File: k8s/legendary-deployment.yaml
+# N3EXTPATH HR Platform - Legendary Kubernetes Deployment
+# Built: 2025-08-05 16:33:22 UTC by RICKROLL187
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: n3extpath-legendary
+  labels:
+    name: n3extpath-legendary
+    built-by: rickroll187
+    legendary-status: enabled
+    swiss-precision: "true"
+
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: n3extpath-config
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-hr
+    built-by: rickroll187
+data:
+  APP_NAME: "N3EXTPATH HR Platform"
+  ENVIRONMENT: "production"
+  LEGENDARY_MODE: "enabled"
+  RICKROLL187_MODE: "true"
+  SWISS_PRECISION: "enabled"
+  CODE_BRO_JOKES: "enabled"
+  API_VERSION: "v1.0.0-LEGENDARY"
+  LOG_LEVEL: "INFO"
+  PROMETHEUS_ENABLED: "true"
+
+---
+# Secret for sensitive configuration
+apiVersion: v1
+kind: Secret
+metadata:
+  name: n3extpath-secrets
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-hr
+    built-by: rickroll187
+type: Opaque
+stringData:
+  SECRET_KEY: "legendary-secret-key-change-in-production"
+  DB_PASSWORD: "legendary-db-password"
+  REDIS_PASSWORD: "legendary-redis-password"
+  JWT_SECRET: "legendary-jwt-secret"
+
+---
+# PostgreSQL Database Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql-legendary
+  namespace: n3extpath-legendary
+  labels:
+    app: postgresql
+    component: database
+    built-by: rickroll187
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  Template:
+    metadata:
+      labels:
+        app: postgresql
+        legendary-status: enabled
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "n3extpath_hr"
+        - name: POSTGRES_USER
+          value: "n3extpath_user"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: n3extpath-secrets
+              key: DB_PASSWORD
+        - name: POSTGRES_INITDB_ARGS
+          value: "--encoding=UTF-8"
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - n3extpath_user
+            - -d
+            - n3extpath_hr
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - n3extpath_user
+            - -d
+            - n3extpath_hr
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-service
+  namespace: n3extpath-legendary
+  labels:
+    app: postgresql
+    built-by: rickroll187
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    name: postgresql
+  selector:
+    app: postgresql
+
+---
+# Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-legendary
+  namespace: n3extpath-legendary
+  labels:
+    app: redis
+    component: cache
+    built-by: rickroll187
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        legendary-status: enabled
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        command:
+        - redis-server
+        - --appendonly
+        - "yes"
+        - --requirepass
+        - $(REDIS_PASSWORD)
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: n3extpath-secrets
+              key: REDIS_PASSWORD
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: n3extpath-legendary
+  labels:
+    app: redis
+    built-by: rickroll187
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    name: redis
+  selector:
+    app: redis
+
+---
+# N3EXTPATH Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n3extpath-backend
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-backend
+    component: api
+    built-by: rickroll187
+    legendary-status: maximum
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: n3extpath-backend
+  template:
+    metadata:
+      labels:
+        app: n3extpath-backend
+        legendary-status: maximum
+        swiss-precision: enabled
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: n3extpath-backend
+        image: n3extpath/backend:latest
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DB_HOST
+          value: "postgresql-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "n3extpath_hr"
+        - name: DB_USER
+          value: "n3extpath_user"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: n3extpath-secrets
+              key: DB_PASSWORD
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: n3extpath-secrets
+              key: REDIS_PASSWORD
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: n3extpath-secrets
+              key: SECRET_KEY
+        envFrom:
+        - configMapRef:
+            name: n3extpath-config
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: app-logs
+          mountPath: /app/logs
+      volumes:
+      - name: app-logs
+        emptyDir: {}
+
+---
+# Backend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: n3extpath-backend-service
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-backend
+    built-by: rickroll187
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+    targetPort: 8000
+    name: http
+  selector:
+    app: n3extpath-backend
+
+---
+# Frontend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n3extpath-frontend
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-frontend
+    component: ui
+    built-by: rickroll187
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: n3extpath-frontend
+  template:
+    metadata:
+      labels:
+        app: n3extpath-frontend
+        legendary-status: enabled
+    spec:
+      containers:
+      - name: n3extpath-frontend
+        image: n3extpath/frontend:latest
+        ports:
+        - containerPort: 80
+          name: http
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+---
+# Frontend Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: n3extpath-frontend-service
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-frontend
+    built-by: rickroll187
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: n3extpath-frontend
+
+---
+# Horizontal Pod Autoscaler for Backend
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: n3extpath-backend-hpa
+  namespace: n3extpath-legendary
+  labels:
+    app: n3extpath-backend
+    built-by: rickroll187
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: n3extpath-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+
+---
+# Persistent Volume Claim for PostgreSQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: n3extpath-legendary
+  labels:
+    app: postgresql
+    built-by: rickroll187
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp2

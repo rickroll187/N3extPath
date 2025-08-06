@@ -1,0 +1,256 @@
+{
+  "_comment": "N3EXTPATH HR Platform - Legendary PWA Manifest",
+  "_built": "2025-08-05 16:42:20 UTC by RICKROLL187",
+  "_message": "WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!",
+  
+  "name": "N3EXTPATH HR Platform - Legendary Edition",
+  "short_name": "N3EXTPATH",
+  "description": "Professional HR platform with legendary capabilities built by RICKROLL187. Features performance management, OKR tracking, real-time communication, and Swiss precision with legendary fun!",
+  
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  
+  "scope": "/",
+  "id": "com.n3extpath.hr-platform",
+  
+  "icons": [
+    {
+      "src": "/legendary-logo-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/legendary-logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/screenshots/dashboard-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Legendary Dashboard - Desktop View"
+    },
+    {
+      "src": "/screenshots/dashboard-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Legendary Dashboard - Mobile View"
+    },
+    {
+      "src": "/screenshots/okr-management.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "OKR Management with Swiss Precision"
+    },
+    {
+      "src": "/screenshots/performance-review.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Professional Performance Reviews"
+    },
+    {
+      "src": "/screenshots/team-chat.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Real-time Team Communication"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your legendary dashboard",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/icons/dashboard-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "OKRs",
+      "short_name": "Goals",
+      "description": "Manage your objectives and key results",
+      "url": "/okrs",
+      "icons": [
+        {
+          "src": "/icons/okr-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Performance",
+      "short_name": "Performance",
+      "description": "Track your legendary performance",
+      "url": "/performance",
+      "icons": [
+        {
+          "src": "/icons/performance-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Team Chat",
+      "short_name": "Chat",
+      "description": "Connect with your team",
+      "url": "/chat",
+      "icons": [
+        {
+          "src": "/icons/chat-shortcut.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": ["image/*", ".pdf", ".doc", ".docx"]
+        }
+      ]
+    }
+  },
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+n3extpath",
+      "url": "/handle?url=%s"
+    }
+  ],
+  
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  
+  "prefer_related_applications": false,
+  
+  "file_handlers": [
+    {
+      "action": "/file-handler",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+        "text/csv": [".csv"],
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
+      }
+    }
+  ],
+  
+  "display_override": ["window-controls-overlay", "standalone"],
+  
+  "handle_links": "preferred",
+  
+  "note_taking": {
+    "new_note_url": "/notes/new"
+  },
+  
+  "widgets": [
+    {
+      "name": "Quick Stats",
+      "short_name": "Stats",
+      "description": "View your performance stats at a glance",
+      "tag": "quick-stats",
+      "template": "quick-stats-template",
+      "data": "/api/widget/stats",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "/widgets/stats-widget.png",
+          "sizes": "256x256",
+          "label": "Quick Stats Widget"
+        }
+      ],
+      "icons": [
+        {
+          "src": "/icons/stats-widget.png",
+          "sizes": "64x64"
+        }
+      ]
+    }
+  ],
+  
+  "custom": {
+    "legendary_features": {
+      "rickroll187_mode": true,
+      "swiss_precision": true,
+      "code_bro_jokes": true,
+      "legendary_branding": true
+    },
+    "built_by": "RICKROLL187",
+    "legendary_message": "WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!",
+    "version": "1.0.0-LEGENDARY",
+    "build_timestamp": "2025-08-05T16:42:20Z"
+  }
+}

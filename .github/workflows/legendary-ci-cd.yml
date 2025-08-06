@@ -1,0 +1,538 @@
+# File: .github/workflows/legendary-ci-cd.yml
+# N3EXTPATH HR Platform - Legendary CI/CD Pipeline
+# Built: 2025-08-05 17:18:14 UTC by RICKROLL187
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN - LEETS GO!
+
+name: 🎸 Legendary CI/CD Pipeline 🎸
+
+on:
+  push:
+    branches: [ main, develop, legendary-features ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      legendary_mode:
+        description: 'Enable Legendary Mode'
+        required: false
+        default: 'true'
+        type: boolean
+
+env:
+  # Legendary environment variables
+  LEGENDARY_MODE: true
+  SWISS_PRECISION: enabled
+  CODE_BRO_ENERGY: maximum
+  BUILT_BY: RICKROLL187
+  
+  # Application settings
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+  REDIS_VERSION: '7'
+  POSTGRES_VERSION: '15'
+
+jobs:
+  # Job 1: Legendary Code Quality Checks
+  legendary-quality-check:
+    name: 🎸 Legendary Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: ⚡ Setup Python with Swiss Precision
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: 📦 Install Legendary Dependencies
+      run: |
+        echo "🎸 Installing legendary dependencies..."
+        pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        pip install -r backend/requirements-dev.txt
+        echo "✅ Legendary dependencies installed!"
+    
+    - name: 🔍 Legendary Code Linting (Black + Flake8)
+      run: |
+        echo "🎸 Running legendary code formatting checks..."
+        black --check backend/ tests/
+        echo "✅ Code formatting is legendary!"
+        
+        echo "🎸 Running legendary code linting..."
+        flake8 backend/ tests/ --max-line-length=120 --ignore=E203,W503
+        echo "✅ Code linting passed with Swiss precision!"
+    
+    - name: 🛡️ Legendary Security Scan (Bandit)
+      run: |
+        echo "🎸 Running legendary security scan..."
+        bandit -r backend/ -f json -o bandit-report.json || true
+        echo "✅ Security scan completed!"
+    
+    - name: 📊 Upload Security Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: legendary-security-report
+        path: bandit-report.json
+    
+    - name: 🎸 Code Bro Fun Check
+      run: |
+        echo "🎸 Checking for code bro energy..."
+        if grep -r "WE ARE CODE BROS" backend/ tests/; then
+          echo "✅ Legendary code bro energy detected!"
+        else
+          echo "⚠️ Need more code bro energy!"
+        fi
+
+  # Job 2: Legendary Backend Tests
+  legendary-backend-tests:
+    name: 🎸 Legendary Backend Tests
+    runs-on: ubuntu-latest
+    needs: legendary-quality-check
+    
+    services:
+      # Legendary Redis service
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      
+      # Legendary PostgreSQL service
+      postgres:
+        image: postgres:${{ env.POSTGRES_VERSION }}-alpine
+        env:
+          POSTGRES_DB: n3extpath_test
+          POSTGRES_USER: legendary_test_user
+          POSTGRES_PASSWORD: legendary_test_password
+        options: >-
+          --health-cmd "pg_isready -U legendary_test_user -d n3extpath_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: ⚡ Setup Python with Swiss Precision
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: 📦 Install Legendary Test Dependencies
+      run: |
+        echo "🎸 Installing legendary test dependencies..."
+        pip install --upgrade pip
+        pip install -r backend/requirements.txt
+        pip install -r backend/requirements-dev.txt
+        echo "✅ Test dependencies installed with legendary precision!"
+    
+    - name: 🧪 Run Legendary Unit Tests
+      env:
+        DATABASE_URL: postgresql://legendary_test_user:legendary_test_password@localhost:5432/n3extpath_test
+        REDIS_URL: redis://localhost:6379/0
+        JWT_SECRET: legendary_test_secret_key
+        LEGENDARY_MODE: true
+      run: |
+        echo "🎸 Running legendary unit tests..."
+        pytest tests/ -v \
+          --cov=backend \
+          --cov-report=xml \
+          --cov-report=html \
+          --cov-report=term-missing \
+          --cov-fail-under=80 \
+          --durations=10 \
+          --tb=short \
+          --color=yes \
+          -m "not slow"
+        echo "✅ Legendary unit tests passed!"
+    
+    - name: 🏆 Run Legendary Integration Tests
+      env:
+        DATABASE_URL: postgresql://legendary_test_user:legendary_test_password@localhost:5432/n3extpath_test
+        REDIS_URL: redis://localhost:6379/0
+        JWT_SECRET: legendary_test_secret_key
+        LEGENDARY_MODE: true
+      run: |
+        echo "🎸 Running legendary integration tests..."
+        pytest tests/ -v \
+          --tb=short \
+          --color=yes \
+          -m "integration"
+        echo "✅ Integration tests completed with Swiss precision!"
+    
+    - name: ⚡ Run Legendary Performance Tests
+      env:
+        DATABASE_URL: postgresql://legendary_test_user:legendary_test_password@localhost:5432/n3extpath_test
+        REDIS_URL: redis://localhost:6379/0
+        JWT_SECRET: legendary_test_secret_key
+        LEGENDARY_MODE: true
+      run: |
+        echo "🎸 Running legendary performance tests..."
+        pytest tests/ -v \
+          --tb=short \
+          --color=yes \
+          -m "performance" \
+          --durations=0
+        echo "✅ Performance tests passed with legendary speed!"
+    
+    - name: 📊 Upload Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: backend
+        name: legendary-backend-coverage
+        fail_ci_if_error: false
+    
+    - name: 📊 Upload Coverage Reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: legendary-coverage-reports
+        path: |
+          coverage.xml
+          htmlcov/
+
+  # Job 3: Legendary Frontend Tests
+  legendary-frontend-tests:
+    name: 🎸 Legendary Frontend Tests
+    runs-on: ubuntu-latest
+    needs: legendary-quality-check
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: ⚡ Setup Node.js with Swiss Precision
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: 📦 Install Legendary Frontend Dependencies
+      working-directory: frontend
+      run: |
+        echo "🎸 Installing legendary frontend dependencies..."
+        npm ci --prefer-offline --no-audit
+        echo "✅ Frontend dependencies installed!"
+    
+    - name: 🔍 Legendary Frontend Linting
+      working-directory: frontend
+      run: |
+        echo "🎸 Running legendary ESLint checks..."
+        npm run lint
+        echo "✅ Frontend linting passed with Swiss precision!"
+    
+    - name: 🎨 Legendary TypeScript Check
+      working-directory: frontend
+      run: |
+        echo "🎸 Running legendary TypeScript checks..."
+        npm run type-check
+        echo "✅ TypeScript checks passed!"
+    
+    - name: 🧪 Legendary Frontend Unit Tests
+      working-directory: frontend
+      run: |
+        echo "🎸 Running legendary frontend unit tests..."
+        npm run test:unit -- --coverage --watchAll=false
+        echo "✅ Frontend unit tests passed!"
+    
+    - name: 🌐 Legendary E2E Tests
+      working-directory: frontend
+      run: |
+        echo "🎸 Running legendary E2E tests..."
+        npm run build
+        npm run test:e2e
+        echo "✅ E2E tests completed with legendary precision!"
+    
+    - name: 📊 Upload Frontend Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./frontend/coverage/lcov.info
+        flags: frontend
+        name: legendary-frontend-coverage
+        fail_ci_if_error: false
+
+  # Job 4: Legendary Docker Build
+  legendary-docker-build:
+    name: 🎸 Legendary Docker Build
+    runs-on: ubuntu-latest
+    needs: [legendary-backend-tests, legendary-frontend-tests]
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: 🔑 Login to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: 🎸 Build Legendary Backend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./backend
+        file: ./backend/Dockerfile
+        push: false
+        tags: |
+          ghcr.io/${{ github.repository }}/legendary-backend:latest
+          ghcr.io/${{ github.repository }}/legendary-backend:${{ github.sha }}
+        labels: |
+          org.opencontainers.image.title=N3EXTPATH Legendary Backend
+          org.opencontainers.image.description=Professional HR Platform Backend built by RICKROLL187
+          org.opencontainers.image.source=${{ github.repositoryUrl }}
+          org.opencontainers.image.revision=${{ github.sha }}
+          org.opencontainers.image.created=${{ steps.date.outputs.date }}
+          legendary.built-by=RICKROLL187
+          legendary.swiss-precision=enabled
+          legendary.code-bro-energy=maximum
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
+    - name: 🎸 Build Legendary Frontend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
+        push: false
+        tags: |
+          ghcr.io/${{ github.repository }}/legendary-frontend:latest
+          ghcr.io/${{ github.repository }}/legendary-frontend:${{ github.sha }}
+        labels: |
+          org.opencontainers.image.title=N3EXTPATH Legendary Frontend
+          org.opencontainers.image.description=Professional HR Platform Frontend built by RICKROLL187
+          org.opencontainers.image.source=${{ github.repositoryUrl }}
+          org.opencontainers.image.revision=${{ github.sha }}
+          legendary.built-by=RICKROLL187
+          legendary.swiss-precision=enabled
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  # Job 5: Legendary Security Scan
+  legendary-security-scan:
+    name: 🎸 Legendary Security Scan
+    runs-on: ubuntu-latest
+    needs: legendary-docker-build
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: 🛡️ Run Legendary Trivy Vulnerability Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        severity: 'CRITICAL,HIGH,MEDIUM'
+    
+    - name: 📊 Upload Trivy Scan Results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+    
+    - name: 🔍 Legendary Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'N3EXTPATH-Legendary'
+        path: '.'
+        format: 'JSON'
+        args: >
+          --enableRetired
+          --enableExperimental
+          --out reports
+          --log logs
+    
+    - name: 📊 Upload Dependency Check Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: legendary-dependency-check
+        path: reports/
+
+  # Job 6: Legendary Deployment (Production)
+  legendary-deployment:
+    name: 🎸 Legendary Production Deployment
+    runs-on: ubuntu-latest
+    needs: [legendary-backend-tests, legendary-frontend-tests, legendary-docker-build, legendary-security-scan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: 🔑 Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+    
+    - name: 🐳 Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    
+    - name: 🚀 Deploy to Legendary EKS Cluster
+      run: |
+        echo "🎸 Deploying to legendary production environment..."
+        
+        # Update kubeconfig
+        aws eks update-kubeconfig --region us-west-2 --name n3extpath-legendary-cluster
+        
+        # Apply Kubernetes manifests
+        kubectl apply -f k8s/legendary-deployment.yaml
+        kubectl apply -f k8s/legendary-services.yaml
+        kubectl apply -f k8s/legendary-ingress.yaml
+        
+        # Wait for deployment rollout
+        kubectl rollout status deployment/n3extpath-backend -n n3extpath-legendary --timeout=600s
+        kubectl rollout status deployment/n3extpath-frontend -n n3extpath-legendary --timeout=600s
+        
+        echo "✅ Legendary deployment completed with Swiss precision!"
+        echo "🎸 WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN! 🎸"
+    
+    - name: 🔔 Legendary Deployment Notification
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: ${{ job.status }}
+        channel: '#legendary-deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        custom_payload: |
+          {
+            "text": "🎸 Legendary Deployment ${{ job.status == 'success' && 'Successful' || 'Failed' }} 🎸",
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "🎸 N3EXTPATH Legendary Deployment 🎸"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Status:* ${{ job.status == 'success' && '✅ SUCCESS' || '❌ FAILED' }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch:* ${{ github.ref_name }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Commit:* ${{ github.sha }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Built by:* RICKROLL187"
+                  }
+                ]
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🎸 WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN! 🎸"
+                  }
+                ]
+              }
+            ]
+          }
+
+  # Job 7: Legendary Performance Testing
+  legendary-performance-testing:
+    name: 🎸 Legendary Performance Testing
+    runs-on: ubuntu-latest
+    needs: legendary-deployment
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: 🎸 Checkout Legendary Code
+      uses: actions/checkout@v4
+    
+    - name: ⚡ Setup Node.js for K6
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: 📦 Install K6
+      run: |
+        sudo gpg -k
+        sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+        echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+        sudo apt-get update
+        sudo apt-get install k6
+    
+    - name: 🚀 Run Legendary Load Tests
+      run: |
+        echo "🎸 Running legendary load tests..."
+        k6 run --vus 100 --duration 5m tests/performance/legendary-load-test.js
+        echo "✅ Load tests completed with legendary performance!"
+    
+    - name: 📊 Upload Performance Results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: legendary-performance-results
+        path: performance-results.json
+
+# Workflow Summary
+  legendary-summary:
+    name: 🎸 Legendary Pipeline Summary
+    runs-on: ubuntu-latest
+    needs: [legendary-quality-check, legendary-backend-tests, legendary-frontend-tests, legendary-docker-build, legendary-security-scan]
+    if: always()
+    
+    steps:
+    - name: 🎸 Generate Legendary Summary
+      run: |
+        echo "🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸"
+        echo "🎸                                                    🎸"
+        echo "🎸        N3EXTPATH LEGENDARY CI/CD PIPELINE          🎸"
+        echo "🎸        Built by RICKROLL187 - Legendary Founder    🎸"
+        echo "🎸        $(date -u '+%Y-%m-%d %H:%M:%S UTC')                 🎸"
+        echo "🎸        WE ARE CODE BROS THE CREATE THE BEST        🎸"
+        echo "🎸        AND CRACK JOKES TO HAVE FUN - LEETS GO!     🎸"
+        echo "🎸                                                    🎸"
+        echo "🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸🎸"
+        
+        echo "📊 Pipeline Results:"
+        echo "✅ Quality Check: ${{ needs.legendary-quality-check.result }}"
+        echo "✅ Backend Tests: ${{ needs.legendary-backend-tests.result }}"
+        echo "✅ Frontend Tests: ${{ needs.legendary-frontend-tests.result }}"
+        echo "✅ Docker Build: ${{ needs.legendary-docker-build.result }}"
+        echo "✅ Security Scan: ${{ needs.legendary-security-scan.result }}"
+        
+        if [[ "${{ needs.legendary-quality-check.result }}" == "success" && 
+              "${{ needs.legendary-backend-tests.result }}" == "success" && 
+              "${{ needs.legendary-frontend-tests.result }}" == "success" && 
+              "${{ needs.legendary-docker-build.result }}" == "success" && 
+              "${{ needs.legendary-security-scan.result }}" == "success" ]]; then
+          echo "🎸 ALL CHECKS PASSED WITH LEGENDARY PRECISION! 🎸"
+        else
+          echo "⚠️ Some checks need attention, but we're still legendary!"
+        fi

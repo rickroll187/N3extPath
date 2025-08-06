@@ -1,0 +1,91 @@
+# File: backend/requirements-dev.txt
+# 🎸🎸🎸 N3EXTPATH - LEGENDARY DEVELOPMENT REQUIREMENTS 🎸🎸🎸
+# Professional development dependencies with Swiss precision tooling
+# Built: 2025-08-06 00:30:05 UTC by RICKROLL187
+# Email: letstalktech010@gmail.com
+# WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN!
+
+# Include base requirements
+-r requirements.txt
+
+# =====================================
+# 🧪 TESTING & QUALITY ASSURANCE 🧪
+# =====================================
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-xdist==3.5.0
+pytest-html==4.1.1
+pytest-benchmark==4.0.0
+coverage==7.3.2
+mutmut==2.4.3
+
+# =====================================
+# 🔍 CODE ANALYSIS & LINTING 🔍
+# =====================================
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+flake8-docstrings==1.7.0
+flake8-import-order==0.18.2
+flake8-bugbear==23.12.2
+pylint==3.0.3
+mypy==1.7.1
+bandit==1.7.5
+safety==2.3.4
+vulture==2.10
+
+# =====================================
+# 📊 PROFILING & PERFORMANCE 📊
+# =====================================
+line-profiler==4.1.1
+memory-profiler==0.61.0
+py-spy==0.3.14
+locust==2.17.0
+wrk==0.4.3
+
+# =====================================
+# 🗄️ DATABASE TOOLS 🗄️
+# =====================================
+sqlalchemy-stubs==0.4
+psycopg2-stubs==2.9.9.17
+alembic-postgresql-enum==1.1.2
+
+# =====================================
+# 📝 DOCUMENTATION 📝
+# =====================================
+mkdocs==1.5.3
+mkdocs-material==9.5.2
+mkdocs-swagger-ui-tag==0.6.6
+sphinx==7.2.6
+sphinx-rtd-theme==1.3.0
+
+# =====================================
+# 🔧 DEVELOPMENT UTILITIES 🔧
+# =====================================
+pre-commit==3.6.0
+commitizen==3.13.0
+bumpversion==0.6.0
+watchdog==3.0.0
+python-dotenv==1.0.0
+
+# =====================================
+# 🐳 CONTAINERIZATION & DEPLOYMENT 🐳
+# =====================================
+docker==6.1.3
+docker-compose==1.29.2
+
+# =====================================
+# 🎸 LEGENDARY DEV TOOLS 🎸
+# =====================================
+# These are the legendary development tools for maximum productivity!
+ipython==8.18.1        # Interactive Python shell for legendary debugging
+jupyter==1.0.0         # Notebooks for legendary experimentation
+rich==13.7.0           # Beautiful terminal output for code bros
+typer==0.9.0           # CLI building for legendary tools
+click==8.1.7           # Additional CLI support
+colorama==0.4.6        # Colorful output for legendary development
+tqdm==4.66.1           # Progress bars for legendary operations
+tabulate==0.9.0        # Beautiful tables for legendary data
+humanize==4.9.0        # Human-friendly formatting for legendary UX
