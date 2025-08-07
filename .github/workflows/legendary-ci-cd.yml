@@ -1,4 +1,3 @@
-# File: .github/workflows/legendary-ci-cd.yml
 # N3EXTPATH HR Platform - Legendary CI/CD Pipeline
 # Built: 2025-08-05 17:18:14 UTC by RICKROLL187
 # WE ARE CODE BROS THE CREATE THE BEST AND CRACK JOKES TO HAVE FUN - LEETS GO!
@@ -24,12 +23,11 @@ env:
   SWISS_PRECISION: enabled
   CODE_BRO_ENERGY: maximum
   BUILT_BY: RICKROLL187
-  
+
   # Application settings
   NODE_VERSION: '20'
   PYTHON_VERSION: '3.11'
-  REDIS_VERSION: '7'
-  POSTGRES_VERSION: '15'
+  # REDIS_VERSION and POSTGRES_VERSION are NOT used in services.image due to GitHub Actions limitations
 
 jobs:
   # Job 1: Legendary Code Quality Checks
@@ -98,7 +96,7 @@ jobs:
     services:
       # Legendary Redis service
       redis:
-        image: redis:${{ env.REDIS_VERSION }}-alpine
+        image: redis:7-alpine
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
@@ -109,7 +107,7 @@ jobs:
       
       # Legendary PostgreSQL service
       postgres:
-        image: postgres:${{ env.POSTGRES_VERSION }}-alpine
+        image: postgres:15-alpine
         env:
           POSTGRES_DB: n3extpath_test
           POSTGRES_USER: legendary_test_user
